@@ -1,0 +1,12 @@
+.border-right {
+  border-right: 1px solid black;
+}
+
+.border-left {
+  border-left: 1px solid black;
+}
+
+.btn-lg {
+  font-size: 22px;
+  padding: 15px 32px;
+}
