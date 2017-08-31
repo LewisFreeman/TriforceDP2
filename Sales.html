@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>PHP-SRePS - Sales Records System</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    
+    <style>
+        .lightBackground {
+            background: #EEE;
+        }
+        
+        .mainView {
+            height: 250px;
+            margin: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-default">
+            <div class="contianer navbar-container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+                    <span class="sr-only">Toggle Navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                    <a class="navbar-brand" href="#">PHP-SRePS</a>
+                </div>
+
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Home </a></li>
+                    <li><a>Reports</a></li>
+                    <li><a>POS</a></li>
+                    <li class="active"><a>Sales Records</a></li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Log In</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div clas="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <form>
+                        <label for="searchFilter">Search Filter</label>
+                        <input type="text" id="searchFilter" />
+                    </form>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+
+            <div class="row ">
+                <div class="col-md-6 border rounded lightBackground ">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2>Sales Record List</h2>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul>
+                                <li>Sales Record 1</li>
+                                <li>Sales Record 2</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6 border rounded lightBackground ">
+                    <h2>Sales Record View</h2>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <button>Button 1</button>
+                </div>
+
+                <div class="col-md-3">
+                    <button>Button 2</button>
+                </div>
+
+                <div class="col-md-3">
+                    <button>Button 3</button>
+                </div>
+
+                <div class="col-md-3">
+                    <button>Button 4</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/angular.min.js"></script>
+</body>
+
+</html>
