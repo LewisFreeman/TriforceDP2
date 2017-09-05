@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="js/POSController.js"></script>
+      
   </head>
   <body>
     <div class="container" data-ng-controller="myCtrl">
@@ -108,7 +111,7 @@
           <button type="button" class="btn btn-danger btn-lg" ng-click="Item = null; Number = null; ClearAll()">Clear All</button>
         </div>
         <div class="col-sm-4 col-lg-4 text-center">
-          <button type="button" class="btn btn-success btn-lg" ng-click="">Checkout</button>
+          <button type="button" class="btn btn-success btn-lg" ng-click="Checkout()">Checkout</button>
         </div>
       </div>
     </div>
@@ -118,3 +121,4 @@
     <script src="js/POSController.js"></script>
   </body>
 </html>
+
