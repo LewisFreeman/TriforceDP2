@@ -7,6 +7,7 @@ app.controller('myCtrl', function($scope, $http) {
   });
 
   $scope.Add = function (Item, Number) {
+      alert("Medicine added to Cart");
     $scope.error = "";
     if (Item == null || Number == 0 || Number == null)
       {
@@ -65,4 +66,18 @@ app.controller('myCtrl', function($scope, $http) {
     $scope.Cart = [];
     $scope.error = "";
   };
+    
+         $scope.Checkout = function(){  
+          alert("Checkout works");
+         for(i = 0; i < $scope.Cart.length; i++)
+             {
+               $http.post(  
+                    "insert.php",  
+                    {'cartSize':$scope.Cart.length, 'item':$scope.Cart[i].name, 'amount':$scope.Cart[i].amount,
+                    'price':$scope.Cart[i].price }  
+               ).success(function(data){  
+                    alert(data);  
+               });  
+             }
+      } 
 });
