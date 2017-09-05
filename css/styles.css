@@ -6,7 +6,15 @@
   border-left: 1px solid black;
 }
 
+.border-bottom {
+  border-bottom: 1px solid black;
+}
+
 .btn-lg {
-  font-size: 22px;
+  font-size: 175%;
   padding: 15px 32px;
+}
+
+.total {
+  font-size: 150%;
 }
