@@ -6,36 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="js/POSController.js"></script>
+      
   </head>
   <body>
     <div class="container" data-ng-controller="myCtrl">
       <nav class="navbar navbar-default">
-            <div class="contianer navbar-container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
-                    <span class="sr-only">Toggle Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-
-                    <a class="navbar-brand" href="#">PHP-SRePS</a>
-                </div>
-
-            </div>
-
-            <div class="collapse navbar-collapse" id="navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="Home.html">Home </a></li>
-                    <li><a href="Reports.html">Reports</a></li>
-                    <li class="active"><a href="POS.html">POS</a></li>
-                    <li><a href="Sales.html">Sales Records</a></li>
-                </ul>
-
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Log In</a></li>
-                </ul>
-            </div>
+        <div class="contianer navbar-container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+              <span class="sr-only">Toggle Navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">PHP-SRePS</a>
+          </div>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li><a href="Home.html">Home </a></li>
+            <li><a href="Reports.html">Reports</a></li>
+            <li class="active"><a href="POS.html">POS</a></li>
+            <li><a href="Sales.html">Sales Records</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Log In</a></li>
+          </ul>
+        </div>
       </nav>
       <div class="row">
         <h1>Checkout</h1>
@@ -51,16 +50,16 @@
                 <p>Nothing here yet</p>
               </div>
               <div class="row" ng-repeat="c in Cart">
-                <div class="col-lg-3 border-right text-center">
+                <div class="col-xs-5 col-sm-3 col-lg-3 border-right text-center">
                   <p>{{c.name}}</p>
                 </div>
-                <div class="col-lg-2 border-right text-center">
+                <div class="col-xs-2 col-sm-2 col-lg-2 border-right text-center">
                   <p>x{{c.amount}}</p>
                 </div>
-                <div class="col-lg-2 border-right text-center">
+                <div class="col-xs-5 col-sm-2 col-lg-2 border-right text-center">
                   <p>${{c.price}}</p>
                 </div>
-                <div class="col-lg-offset-8">
+                <div class="col-xs-offset-6 col-sm-offset-8 col-lg-offset-8">
                   <p>
                     <button type="button" class="btn btn-danger" ng-click="Delete(c)">Delete</button>
                   </p>
@@ -105,14 +104,14 @@
         </div>
       </div>
       <div class="row row well">
-        <div class="col-lg-4 text-center">
+        <div class="col-sm-4 col-lg-4 text-center">
           <p class="total">Total Amount = ${{GetTotal()}}</p>
         </div>
-        <div class="col-lg-4 text-center border-right border-left">
+        <div class="col-sm-4 col-lg-4 text-center border-right border-left">
           <button type="button" class="btn btn-danger btn-lg" ng-click="Item = null; Number = null; ClearAll()">Clear All</button>
         </div>
-        <div class="col-lg-4 text-center">
-          <button type="button" class="btn btn-success btn-lg" ng-click="">Checkout</button>
+        <div class="col-sm-4 col-lg-4 text-center">
+          <button type="button" class="btn btn-success btn-lg" ng-click="Checkout()">Checkout</button>
         </div>
       </div>
     </div>
@@ -122,3 +121,4 @@
     <script src="js/POSController.js"></script>
   </body>
 </html>
+

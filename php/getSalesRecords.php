@@ -1,6 +1,9 @@
 <?php 
+	//$db_con = new mysqli("127.0.0.1", "root", "", "DP2");
+	//$table = "POS";
+
 	$db_con = new mysqli("127.0.0.1", "root", "", "PHPSRePS");
-	$table = "SalesRecords";
+	$table = "salesRecords";
 
 	$result = $db_con->query("SELECT * FROM $table;");
 	//$rows = $result->fetch_assoc();
