@@ -67,9 +67,8 @@
                     <form>
                         <p>
                             <label for="searchFilter">Search Filter</label>
-                            <input type="text" id="searchFilter" />
-
-                            <input type="submit" class="btn btn-primary" value="Filter Search Results" />
+                            <input type="text" data-ng-model="search.item" placeholder="Search Item Name"/>
+							<input type="text" data-ng-model="search.date" placeholder="Search Date"/>
                         </p>
                     </form>
                 </div>
@@ -81,7 +80,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h2>Sales Record List</h2>
-                        </div>
+                        </div	>
                     </div>
 
                     <div class="row">
@@ -103,7 +102,7 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <table class="table">
+							<table class="table">
                                 <thead>
                                     <tr>
                                         <th>
@@ -125,7 +124,7 @@
                                 </thead>
 
                                 <tbody>
-                                    <tr data-ng-repeat="row in salesRecords">
+                                    <tr data-ng-repeat="row in salesRecords | filter:search :exactMatch | orderBy:sortAttri:sortReverse" >
                                         <td>
                                             {{row.saleNumber}}
                                         </td>
@@ -151,11 +150,11 @@
 
             <br/>
             <div class="row">
-                <div class="col-md-8">
-                    <button class="btn btn-secondary formatButton">Order by Date</button>
-                    <button class="btn btn-secondary formatButton">Order by Name</button>
-                    <button class="btn btn-secondary formatButton">Manage Button 3</button>
-                    <button class="btn btn-secondary formatButton">Manage Button 4</button>
+                <div class="col-md-12">
+                    <button class="btn btn-secondary formatButton" ng-click="sortBy('item')">Sort by Name</button>
+                    <button class="btn btn-secondary formatButton" ng-click="sortBy('quantity')">Sort by Quantity</button>
+					<button class="btn btn-secondary formatButton" ng-click="sortBy('date')">Sort by Date</button>
+					<button class="btn btn-secondary formatButton" ng-click="sortBy('price')">Sort by Price</button>
                 </div>
 
                 <!-- Spacer -->
