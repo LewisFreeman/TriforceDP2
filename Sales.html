@@ -1,175 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>PHP-SRePS - Sales Records System</title>
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="css/bootstrap.min.css" />
+      <link href="css/styles.css" rel="stylesheet" />
+  </head>
+  <body data-ng-app="PHPSRePS" data-ng-controller="salesRecordsController">
+      <div class="container">
+          <nav class="navbar navbar-default">
+              <div class="contianer navbar-container">
+                  <div class="navbar-header">
+                      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+                      <span class="sr-only">Toggle Navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                  </button>
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                      <a class="navbar-brand" href="#">PHP-SRePS</a>
+                  </div>
 
-    <title>PHP-SRePS - Sales Records System</title>
+              </div>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
+              <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                  <ul class="nav navbar-nav">
+                      <li><a href="Home.html">Home </a></li>
+                      <li><a href="Reports.html">Reports</a></li>
+                      <li><a href="POS.html">POS</a></li>
+                      <li class="active"><a href="Sales.html">Sales Records</a></li>
+                  </ul>
 
-    <style>
-        .lightBackground {
-            background: #EEE;
-        }
-        
-        .mainView {
-            height: 250px;
-            margin: 15px;
-        }
-        
-        .formatButton {
-            width: 20%;
-            text-align: center;
-        }
+                  <ul class="nav navbar-nav navbar-right">
+                      <li><a href="#">Log In</a></li>
+                  </ul>
+              </div>
+          </nav>
 
-    </style>
-</head>
-
-<body data-ng-app="PHPSRePS" data-ng-controller="salesRecordsController">
-    <div class="container">
-        <nav class="navbar navbar-default">
-            <div class="contianer navbar-container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
-                    <span class="sr-only">Toggle Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-
-                    <a class="navbar-brand" href="#">PHP-SRePS</a>
-                </div>
-
-            </div>
-
-            <div class="collapse navbar-collapse" id="navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="Home.html">Home </a></li>
-                    <li><a href="Reports.html">Reports</a></li>
-                    <li><a href="POS.html">POS</a></li>
-                    <li class="active"><a href="Sales.html">Sales Records</a></li>
-                </ul>
-
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Log In</a></li>
-                </ul>
-            </div>
-        </nav>
-
-        <div class="container">
+          <div class="container">
             <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
-                    <form>
-                        <p>
-                            <label for="searchFilter">Search Filter</label>
-                            <input type="text" data-ng-model="search.item" placeholder="Search Item Name"/>
-							<input type="text" data-ng-model="search.date" placeholder="Search Date"/>
-                        </p>
-                    </form>
-                </div>
-                <div class="col-md-3"></div>
+              <div class="col-md-offset-3">
+                <form>
+                  <p>
+                    <label for="searchFilter">Search Filter</label>
+                    <input type="text" data-ng-model="search.item" placeholder="Search Item Name"/>
+                    <input type="text" data-ng-model="search.date" placeholder="Search Date"/>
+                  </p>
+                </form>
+              </div>
             </div>
+              <div class="row ">
+                  <div class="col-md-6 well">
+                      <div class="row">
+                          <div class="col-md-12">
+                              <h2>Sales Record List</h2>
+                          </div	>
+                      </div>
 
-            <div class="row ">
-                <div class="col-md-6 border rounded lightBackground ">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h2>Sales Record List</h2>
-                        </div	>
-                    </div>
+                      <div class="row">
+                          <div class="col-md-12">
+                              <ul data-ng-repeat="row in salesRecords">
+                                  <li>Sales Record {{row.saleNumber}}: {{row.item}}</li>
+                              </ul>
+                          </div>
+                      </div>
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <ul data-ng-repeat="row in salesRecords">
-                                <li>Sales Record {{row.saleNumber}}: {{row.item}}</li>
-                            </ul>
-                        </div>
-                    </div>
+                  </div>
 
-                </div>
+                  <div class="col-md-6 well">
+                      <div class="row">
+                          <div class="col-md-12">
+                              <h2>Sales Record View</h2>
+                          </div>
+                      </div>
 
-                <div class="col-md-6 border rounded lightBackground ">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h2>Sales Record View</h2>
-                        </div>
-                    </div>
+                      <div class="row">
+                          <div class="col-md-12">
+                <table class="table">
+                                  <thead>
+                                      <tr>
+                                          <th>
+                                              Sale Number
+                                          </th>
+                                          <th>
+                                              Item
+                                          </th>
+                                          <th>
+                                              Quantity
+                                          </th>
+                                          <th>
+                                              Date
+                                          </th>
+                                          <th>
+                                              Price
+                                          </th>
+                                      </tr>
+                                  </thead>
 
-                    <div class="row">
-                        <div class="col-md-12">
-							<table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            Sale Number
-                                        </th>
-                                        <th>
-                                            Item
-                                        </th>
-                                        <th>
-                                            Quantity
-                                        </th>
-                                        <th>
-                                            Date
-                                        </th>
-                                        <th>
-                                            Price
-                                        </th>
-                                    </tr>
-                                </thead>
+                                  <tbody>
+                                      <tr data-ng-repeat="row in salesRecords | filter:search :exactMatch | orderBy:sortAttri:sortReverse" >
+                                          <td>
+                                              {{row.saleNumber}}
+                                          </td>
+                                          <td>
+                                              {{row.item}}
+                                          </td>
+                                          <td>
+                                              {{row.quantity}}
+                                          </td>
+                                          <td>
+                                              {{row.date}}
+                                          </td>
+                                          <td>
+                                              {{row.price}}
+                                          </td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
 
-                                <tbody>
-                                    <tr data-ng-repeat="row in salesRecords | filter:search :exactMatch | orderBy:sortAttri:sortReverse" >
-                                        <td>
-                                            {{row.saleNumber}}
-                                        </td>
-                                        <td>
-                                            {{row.item}}
-                                        </td>
-                                        <td>
-                                            {{row.quantity}}
-                                        </td>
-                                        <td>
-                                            {{row.date}}
-                                        </td>
-                                        <td>
-                                            {{row.price}}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <br/>
-            <div class="row">
-                <div class="col-md-12">
-                    <button class="btn btn-secondary formatButton" ng-click="sortBy('item')">Sort by Name</button>
-                    <button class="btn btn-secondary formatButton" ng-click="sortBy('quantity')">Sort by Quantity</button>
-					<button class="btn btn-secondary formatButton" ng-click="sortBy('date')">Sort by Date</button>
-					<button class="btn btn-secondary formatButton" ng-click="sortBy('price')">Sort by Price</button>
-                </div>
-
-                <!-- Spacer -->
-                <div class="col-md-4">
-                    <div class="row"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/angular.min.js"></script>
-    <script src="js/SalesController.js"></script>
-</body>
-
+              <br/>
+              <div class="row">
+                  <div class="col-md-offset-3">
+                    <button class="btn btn-primary btn-wide" ng-click="sortBy('item')">Sort by Name</button>
+                    <button class="btn btn-primary btn-wide" ng-click="sortBy('quantity')">Sort by Quantity</button>
+                    <button class="btn btn-primary btn-wide" ng-click="sortBy('date')">Sort by Date</button>
+                    <button class="btn btn-primary btn-wide" ng-click="sortBy('price')">Sort by Price</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <script src="js/jquery.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/angular.min.js"></script>
+      <script src="js/SalesController.js"></script>
+  </body>
 </html>

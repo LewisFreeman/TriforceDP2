@@ -12,6 +12,10 @@
   border-bottom: 1px solid black;
 }
 
+.btn-wide {
+  padding: 10px 32px;
+}
+
 .btn-lg {
   font-size: 175%;
   padding: 15px 32px;

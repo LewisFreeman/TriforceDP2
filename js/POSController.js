@@ -3,11 +3,14 @@ app.controller('myCtrl', function($scope, $http) {
 
   //Initialize the cart array on page startup
   $scope.Cart = [];
+  $scope.Items = [];
 
-  //Get items from the json items file to fill the items array (will be replaced with a database)
-  $http.get("data/item.json")
-  .then(function(response) {
-      $scope.Items = response.data;
+  $http({
+    method: 'GET',
+    url: 'php/getItems.php'
+  }).then(function successCallback(response) {
+    $scope.Items = response.data;
+  }, function errorCallback(response) {
   });
 
   //Function called to add items from the input fields to the cart
@@ -81,10 +84,10 @@ app.controller('myCtrl', function($scope, $http) {
 
   //Utility function to return the price of a item in the items array
   $scope.GetPrice = function (Item, Number) {
-    var index = $scope.Items.findIndex(x=>x.name === Item);
+    var index = $scope.Items.findIndex(x=>x.itemName === Item);
 
     //Multiplies the price found by the number of item requested
-    var price = $scope.Items[index].price * Number;
+    var price = $scope.Items[index].itemPrice * Number;
     return price;
   };
 
@@ -103,12 +106,12 @@ app.controller('myCtrl', function($scope, $http) {
     alert("Checkout works");
     for(i = 0; i < $scope.Cart.length; i++)
       {
-         $http.post(
-              "insert.php",
-              {'cartSize':$scope.Cart.length, 'item':$scope.Cart[i].name, 'amount':$scope.Cart[i].amount,
-              'price':$scope.Cart[i].price }
+        $http.post(
+          "php/insert.php",
+          {'cartSize':$scope.Cart.length, 'item':$scope.Cart[i].name, 'amount':$scope.Cart[i].amount,
+          'price':$scope.Cart[i].price }
          ).success(function(data){
-              alert(data);
+          alert(data);
         });
       }
   }
