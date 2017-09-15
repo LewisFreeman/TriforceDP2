@@ -1,5 +1,5 @@
  <?php
-  $conn = mysqli_connect("localhost", "root", "", "phpsreps");
+  $conn = mysqli_connect("localhost", "root", "", "PHPSRePS");
     $data = json_decode(file_get_contents("php://input"));
     echo 'Medicine Added: ' . $data->item . "\n";
     echo 'Quantity: ' . $data->amount . "\n";
