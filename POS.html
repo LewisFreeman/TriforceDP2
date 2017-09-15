@@ -7,7 +7,6 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <!-- Custom stylesheet -->
     <link href="css/styles.css" rel="stylesheet" />
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <!-- Custom controller -->
     <script src="js/POSController.js"></script>
   </head>
@@ -46,7 +45,7 @@
       <div class="row well">
         <div class="col-lg-6">
           <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12 pre-scrollable">
               <!-- Border-bottom is a custom style class -->
               <h3 class="border-bottom">Cart</h3>
               <br>
@@ -64,7 +63,7 @@
                   <p>x{{c.amount}}</p>
                 </div>
                 <div class="col-xs-5 col-sm-2 col-lg-2 border-right text-center">
-                  <p>${{c.price}}</p>
+                  <p>${{c.price | number:2}}</p>
                 </div>
                 <div class="col-xs-offset-6 col-sm-offset-8 col-lg-offset-8">
                   <p>
@@ -120,7 +119,7 @@
       <div class="row row well">
         <div class="col-sm-4 col-lg-4 text-center">
           <!-- Outputs the total amount by calling the GetTotal function in the controller -->
-          <p class="total">Total Amount = ${{GetTotal()}}</p>
+          <p class="total">Total Amount = ${{GetTotal() | number:2}}</p>
         </div>
         <div class="col-sm-4 col-lg-4 text-center border-right border-left">
           <!-- Clear button will clear all fields and use the ClearAll function in the controller to empty the cart-->

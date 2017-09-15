@@ -5,6 +5,7 @@ app.controller('myCtrl', function($scope, $http) {
   $scope.Cart = [];
   $scope.Items = [];
 
+  //Get the values to fill the drop down from the db
   $http({
     method: 'GET',
     url: 'php/getItems.php'
@@ -18,12 +19,11 @@ app.controller('myCtrl', function($scope, $http) {
 
     //Initialize error to a null value
     $scope.error = "";
-
     //Check that the input fields are not empty/valid
-    if (Item == null || Number == 0 || Number == null)
+    if (Item == null || Number == 0 || Number == null || Number % 1 != 0)
       {
         //If invalid then set error
-        $scope.error = "Error: Invalid input, please check that fields contain values";
+        $scope.error = "Error: Invalid input, please check that fields contain values & values must be whole numbers!";
       }
     else
       {
