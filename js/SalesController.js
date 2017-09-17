@@ -2,7 +2,8 @@ console.log("sales controller loaded");
 var myApp = angular.module('PHPSRePS', []);
 
 
-myApp.controller('salesRecordsController', function ($scope, $http) {
+myApp.controller('salesRecordsController', function ($scope, $http) 
+{
   console.log("controller scope start");
   $scope.salesRecords = [];
 
@@ -11,8 +12,9 @@ myApp.controller('salesRecordsController', function ($scope, $http) {
   $scope.sortBy = function(btn)
   {
     $scope.sortReverse=($scope.sortAttri==btn)?!$scope.sortReverse:false;
-    $scope.sortAttri=btn;
+	$scope.sortAttri=btn;
   }
+
 
   $http({
     method: 'GET',

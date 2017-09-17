@@ -7,5 +7,5 @@
     $rows[] = $r;
   }
   header('Content-Type: application://json');
-  echo json_encode($rows);
+  echo json_encode($rows,JSON_NUMERIC_CHECK);
 ?>
