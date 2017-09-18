@@ -107,17 +107,13 @@ app.controller('myCtrl', function($scope, $http) {
   $scope.Checkout = function(){
     console.log("Checkout clicked");
 	  
-    for(i = 0; i < $scope.Cart.length; i++)
+for(i = 0; i < $scope.Cart.length; i++)
       {
         $http.post(
           "php/insert.php",
-          {'cartSize':$scope.Cart.length, 'item':$scope.Cart[i].name, 'amount':$scope.Cart[i].amount,
-          'price':$scope.Cart[i].price }
-         ).success(function(data){
-          	console.log("Request to insert found succeded");
-        }).error(function(data) {
-			console.log("Error: Could not find insert.php");
-		});
+          {'cartSize':$scope.Cart.length, 'item':$scope.Cart[i].name, 'amount':$scope.Cart[i].amount,'price':$scope.Cart[i].price }
+        )       
       }
+       alert("Checkout success");
   };
 });
