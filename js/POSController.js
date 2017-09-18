@@ -1,4 +1,5 @@
 var app = angular.module('myApp', []);
+
 app.controller('myCtrl', function($scope, $http) {
 
   //Initialize the cart array on page startup
@@ -12,6 +13,7 @@ app.controller('myCtrl', function($scope, $http) {
   }).then(function successCallback(response) {
     $scope.Items = response.data;
   }, function errorCallback(response) {
+	  console.log("ERROR: Could not find getItems.php");
   });
 
   //Function called to add items from the input fields to the cart
@@ -103,7 +105,8 @@ app.controller('myCtrl', function($scope, $http) {
   };
 
   $scope.Checkout = function(){
-    alert("Checkout works");
+    console.log("Checkout clicked");
+	  
     for(i = 0; i < $scope.Cart.length; i++)
       {
         $http.post(
@@ -111,8 +114,10 @@ app.controller('myCtrl', function($scope, $http) {
           {'cartSize':$scope.Cart.length, 'item':$scope.Cart[i].name, 'amount':$scope.Cart[i].amount,
           'price':$scope.Cart[i].price }
          ).success(function(data){
-          alert(data);
-        });
+          console.log(data);
+        }).error(function(data) {
+			console.log("Error: Could not find insert.php");
+		});
       }
-  }
+  };
 });
