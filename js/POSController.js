@@ -114,7 +114,7 @@ app.controller('myCtrl', function($scope, $http) {
           {'cartSize':$scope.Cart.length, 'item':$scope.Cart[i].name, 'amount':$scope.Cart[i].amount,
           'price':$scope.Cart[i].price }
          ).success(function(data){
-          console.log(data);
+          	console.log("Request to insert found succeded");
         }).error(function(data) {
 			console.log("Error: Could not find insert.php");
 		});
