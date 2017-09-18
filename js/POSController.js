@@ -114,13 +114,12 @@ app.controller('myCtrl', function($scope, $http) {
 
   $scope.Checkout = function(){
     console.log("Checkout clicked");
-
-      for(i = 0; i < $scope.Cart.length; i++)
-      {
-        $http.post(
-          "php/insert.php",
-          {'cartSize':$scope.Cart.length, 'item':$scope.Cart[i].name, 'amount':$scope.Cart[i].amount, 'price':$scope.Cart[i].price }
-        )
-      }
+    for(i = 0; i < $scope.Cart.length; i++)
+    {
+      $http.post(
+        "php/insert.php",
+        {'cartSize':$scope.Cart.length, 'item':$scope.Cart[i].name, 'amount':$scope.Cart[i].amount, 'price':$scope.Cart[i].price }
+      )
+    }
   };
 });

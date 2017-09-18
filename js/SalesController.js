@@ -32,6 +32,13 @@ myApp.controller('salesRecordsController', function ($scope, $http)
       }
   };
 
+  $scope.Update = function (Number, Name, Quantity, Date, Price) {
+    $http.post(
+        "php/updateRecords.php",
+        {'ID':Number, 'Name':Name, 'Quantity':Quantity, 'Date':Date, 'Price':Price}
+      )
+  };
+
 
   $http({
     method: 'GET',
