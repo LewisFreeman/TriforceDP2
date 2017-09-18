@@ -11,8 +11,7 @@
 <body>
 
     <?php
-        require_once("settings.php"); //connection info
-        $conn = @mysqli_connect($host,$user,$pwd,$sql_db);
+        $conn = mysqli_connect("localhost", "root", "", "PHPSRePS");  
         //Checks if connection is successful
         if(!$conn)
         {
@@ -21,10 +20,10 @@
         }else
         {
             //Upon succesful connection
-            $sql_table = "POS";
+            $sql_table = "salesrecords";
             
             //Set up the SQL command to add the data into the table
-            $query = "select * from POS";
+            $query = "select * from salesrecords";
 			
         
             //execute the query and store result into the result pointer
@@ -41,8 +40,9 @@
                 echo "<table border = \"1\">";
                 echo "<tr>"
                 ."<th scope=\"col\">Transaction ID</th>"
-                ."<th scope=\"col\">Medicine</th>"
+                ."<th scope=\"col\">Item</th>"
                 ."<th scope=\"col\">Quantity</th>"
+				."<th scope=\"col\">Date</th>"
                 ."<th scope=\"col\">Total Price</th>"
                 ."</tr>";
                 
@@ -51,11 +51,11 @@
                 while($row = mysqli_fetch_assoc($result))
                 {
                     echo "<tr>";
-                    echo "<td>", $row["TransactionID"],"</td>";
-                    echo "<td>", $row["Item"],"</td>";
-                    echo "<td>", $row["Quantity"],"</td>";
-                    echo "<td>", $row["Total"],"</td>";
-
+                    echo "<td>", $row["saleNumber"],"</td>";
+                    echo "<td>", $row["item"],"</td>";
+                    echo "<td>", $row["quantity"],"</td>";
+                    echo "<td>", $row["date"],"</td>";
+					echo "<td>", $row["price"],"</td>";
                     echo "</tr>";
                 }
                 echo "</table>";
