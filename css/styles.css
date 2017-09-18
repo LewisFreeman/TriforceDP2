@@ -13,8 +13,9 @@
 }
 
 .btn-wide {
-  padding: 10px 32px;
+  padding: 3px 40px;
   font-size: 125%;
+  max-width: 180px;
 }
 
 .btn-lg {

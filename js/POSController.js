@@ -13,7 +13,7 @@ app.controller('myCtrl', function($scope, $http) {
   }).then(function successCallback(response) {
     $scope.Items = response.data;
   }, function errorCallback(response) {
-	  console.log("ERROR: Could not find getItems.php");
+    console.log("ERROR: Could not find getItems.php");
   });
 
   //Function called to add items from the input fields to the cart
@@ -32,6 +32,8 @@ app.controller('myCtrl', function($scope, $http) {
         //If valid then retrieve the price of the requested item from the items array
         var price = $scope.GetPrice(Item, Number);
 
+        var id = $scope.GetId(Item);
+
         //Check to see if the cart already contains an entry for the item requested
         var index = $scope.Cart.findIndex(x=>x.name === Item);
 
@@ -42,7 +44,7 @@ app.controller('myCtrl', function($scope, $http) {
             if (Number > 0)
               {
                 //Add the item to the cart
-                $scope.Cart.push({name: Item, amount: Number, price: price});
+                $scope.Cart.push({id: id, name: Item, amount: Number, price: price});
               }
             else
               {
@@ -86,11 +88,17 @@ app.controller('myCtrl', function($scope, $http) {
 
   //Utility function to return the price of a item in the items array
   $scope.GetPrice = function (Item, Number) {
-    var index = $scope.Items.findIndex(x=>x.itemName === Item);
+    var index = $scope.Items.findIndex(x=>x.ItemName === Item);
 
     //Multiplies the price found by the number of item requested
-    var price = $scope.Items[index].itemPrice * Number;
+    var price = $scope.Items[index].Price * Number;
     return price;
+  };
+
+  $scope.GetId = function (Item) {
+    var index = $scope.Items.findIndex(x=>x.ItemName === Item);
+    var id = $scope.Items[index].id;
+    return id;
   };
 
   //Called from the html to remove an item from the cart array
@@ -106,14 +114,13 @@ app.controller('myCtrl', function($scope, $http) {
 
   $scope.Checkout = function(){
     console.log("Checkout clicked");
-	  
-for(i = 0; i < $scope.Cart.length; i++)
+
+      for(i = 0; i < $scope.Cart.length; i++)
       {
         $http.post(
           "php/insert.php",
-          {'cartSize':$scope.Cart.length, 'item':$scope.Cart[i].name, 'amount':$scope.Cart[i].amount,'price':$scope.Cart[i].price }
-        )       
+          {'cartSize':$scope.Cart.length, 'item':$scope.Cart[i].name, 'amount':$scope.Cart[i].amount, 'price':$scope.Cart[i].price }
+        )
       }
-       alert("Checkout success");
   };
 });

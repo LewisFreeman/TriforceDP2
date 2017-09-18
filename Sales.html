@@ -51,70 +51,108 @@
           <div class="col-md-6 well">
             <div class="row">
               <div class="col-md-12">
-                <h2>Sales Record List</h2>
+                <h2 class="border-bottom">Edit Sales Records</h2>
               </div	>
             </div>
             <div class="row">
               <div class="col-md-12">
-                <ul data-ng-repeat="row in salesRecords">
-                  <li>Sales Record {{row.saleNumber}}: {{row.item}}</li>
-                </ul>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label for="IdSearch">Transaction ID</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <input id="IdSearch" type="number" data-ng-model="Number">
+                        <button class="btn btn-primary" ng-click="Search(Number)">Search</button>
+                        <p class="text-danger">{{Error}}</p>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <label for="Item">Item Name</label>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="Quantity">Quantity</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <input id="Item" type="text" data-ng-model="Name">
+                      </div>
+                      <div class="col-md-6">
+                        <input id="Quantity" type="number" data-ng-model="Quantity">
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <label for="Date">Date</label>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="Price">Price</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <input id="Date" type="text" data-ng-model="Date">
+                      </div>
+                      <div class="col-md-6">
+                        <span>$</span><input id="Price" type="number" data-ng-model="Price">
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-md-12 text-center">
+                        <button class="btn btn-success btn-wide">Update</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div class="col-md-6 well">
             <div class="row">
-              <div class="col-md-12">
-                <h2>Sales Record View</h2>
+              <div class="col-md-6">
+                <h2 class="border-bottom">Sales Record View</h2>
+              </div>
+              <div class="col-md-5 text-center">
+                <button class="btn btn-primary btn-wide" ng-click="sortBy('item')">Sort by Name</button>
+                <button class="btn btn-primary btn-wide" ng-click="sortBy('quantity')">Sort by Quantity</button>
+                <button class="btn btn-primary btn-wide" ng-click="sortBy('date')">Sort by Date</button>
+                <button class="btn btn-primary btn-wide" ng-click="sortBy('price')">Sort by Price</button>
               </div>
             </div>
             <div class="row">
-                <div class="col-md-8">
-                    <button class="btn btn-secondary formatButton">Order by Date</button>
-                    <button class="btn btn-secondary formatButton">Order by Name</button>
-                    <button class="btn btn-secondary formatButton">Display Weekly Reports</button>
-                    <button class="btn btn-secondary formatButton">Display Monthly Reports</button>
-                </div>
-
-                <!-- Spacer -->
-                <div class="col-md-4">
-                    <div class="row"></div>
-                </div>
-
               <div class="col-md-12">
                 <table class="table">
                   <thead>
                     <tr>
-                      <th>Sale Number</th>
-                      <th>Item</th>
+                      <th>Transaction ID</th>
+                      <th>Item Name</th>
                       <th>Quantity</th>
                       <th>Date</th>
                       <th>Price</th>
                     </tr>
                   </thead>
                   <tbody>
-                      <tr data-ng-repeat="row in salesRecords | filter:search :exactMatch | orderBy:sortAttri:sortReverse" >
-                        <td>{{row.saleNumber}}</td>
-                        <td>{{row.item}}</td>
-                        <td>{{row.quantity}}</td>
-                        <td>{{row.date}}</td>
-                        <td>${{row.price | number:2}}</td>
-                      </tr>
+                    <tr data-ng-repeat="row in salesRecords | filter:search :exactMatch | orderBy:sortAttri:sortReverse" >
+                      <td>{{row.TransactionID}}</td>
+                      <td>{{row.ItemName}}</td>
+                      <td>{{row.Quantity}}</td>
+                      <td>{{row.Date}}</td>
+                      <td>${{row.Price | number:2}}</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
         </div>
-          <br/>
-          <div class="row">
-              <div class="col-md-offset-2">
-                <button class="btn btn-primary btn-wide" ng-click="sortBy('item')">Sort by Name</button>
-                <button class="btn btn-primary btn-wide" ng-click="sortBy('quantity')">Sort by Quantity</button>
-                <button class="btn btn-primary btn-wide" ng-click="sortBy('date')">Sort by Date</button>
-                <button class="btn btn-primary btn-wide" ng-click="sortBy('price')">Sort by Price</button>
-              </div>
-          </div>
       </div>
     </div>
     <script src="js/jquery.min.js"></script>

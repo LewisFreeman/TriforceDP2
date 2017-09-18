@@ -21,11 +21,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `saleRecords` (
-  `saleNumber` int(11) NOT NULL,
-  `item` varchar(200) NOT NULL,
-  `quantity` int(50) NOT NULL,
-  `date` varchar(55) NOT NULL,
-  `price` int(11) NOT NULL
+  `TransactionID` int(4) NOT NULL AUTO_INCREMENT,
+  `ItemName` varchar(30) NOT NULL,
+  `Quantity` int(2) NOT NULL,
+  `Date` varchar(12) NOT NULL,
+  `Price` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -33,14 +33,11 @@ CREATE TABLE `saleRecords` (
 --
 
 INSERT INTO `saleRecords` (`saleNumber`, `item`, `quantity`, `date`, `price`) VALUES
-(14, 'Other Example Item', 5, '2017-09-18 12:51:04pm', 25),
-(15, 'Other Example Item', 5, '2017-09-18 12:51:20pm', 25),
-(16, 'Other Example Item', 5, '2017-09-18 12:51:23pm', 25),
-(17, 'Other Example Item', 5, '2017-09-18 12:51:23pm', 25),
-(18, 'MODIFIED', 200, 'Date is flexible 18 Sept', 300),
-(19, 'Cold Medicine', 3, '2017-09-18 12:51:56pm', 15),
-(20, 'Deodorant ', 2, '2017-09-18 12:51:56pm', 8),
-(21, 'Vitamins', 4, '2017-09-18 12:54:43pm', 40);
+(1, 'Medicine', 5, '2017-09-18', 25),
+(2, 'Deodorant', 5, '2017-09-18', 25),
+(3, 'Toothpaste', 5, '2017-09-18', 25),
+(6, 'Deodorant ', 2, '2017-09-18', 8),
+(7, 'Vitamins', 4, '2017-09-18', 40);
 
 --
 -- Indexes for dumped tables
@@ -51,13 +48,3 @@ INSERT INTO `saleRecords` (`saleNumber`, `item`, `quantity`, `date`, `price`) VA
 --
 ALTER TABLE `saleRecords`
   ADD PRIMARY KEY (`saleNumber`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `saleRecords`
---
-ALTER TABLE `saleRecords`
-  MODIFY `saleNumber` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
