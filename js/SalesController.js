@@ -39,7 +39,6 @@ myApp.controller('salesRecordsController', function ($scope, $http)
       )
   };
 
-
   $http({
     method: 'GET',
     url: 'php/getSalesRecords.php'
@@ -50,7 +49,6 @@ myApp.controller('salesRecordsController', function ($scope, $http)
 
   }, function errorCallback(response) {
     console.log("no response recieved");
-
   });
 
   console.log("controller scope end");
