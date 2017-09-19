@@ -121,5 +121,7 @@ app.controller('myCtrl', function($scope, $http) {
         {'cartSize':$scope.Cart.length, 'item':$scope.Cart[i].name, 'amount':$scope.Cart[i].amount, 'price':$scope.Cart[i].price }
       )
     }
+    alert("Checkout Success");
+    $scope.ClearAll();
   };
 });

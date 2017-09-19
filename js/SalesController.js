@@ -1,10 +1,19 @@
 console.log("sales controller loaded");
 var myApp = angular.module('PHPSRePS', []);
-
-
 myApp.controller('salesRecordsController', function ($scope, $http)
 {
   console.log("controller scope start");
+
+  $scope.Items = [];
+  //Get the values to fill the drop down from the db
+  $http({
+    method: 'GET',
+    url: 'php/getItems.php'
+  }).then(function successCallback(response) {
+    $scope.Items = response.data;
+  }, function errorCallback(response) {
+    console.log("ERROR: Could not find getItems.php");
+  });
 
   $scope.salesRecords = [];
 

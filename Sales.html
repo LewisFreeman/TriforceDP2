@@ -81,7 +81,9 @@
                     </div>
                     <div class="row">
                       <div class="col-md-6">
-                        <input id="Item" type="text" data-ng-model="Name">
+                        <select id="Item" class="select-wide" data-ng-model="Name">
+                          <option ng-repeat="i in Items"value="{{i.ItemName}}">{{i.ItemName}}</option>
+                        </select>
                       </div>
                       <div class="col-md-6">
                         <input id="Quantity" type="number" data-ng-model="Quantity">
@@ -128,7 +130,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-12 pre-scrollable">
                 <table class="table">
                   <thead>
                     <tr>

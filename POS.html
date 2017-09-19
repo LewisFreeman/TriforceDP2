@@ -40,7 +40,6 @@
     </nav>
     <div class="row">
       <h1>Checkout</h1>
-      {{M}}
     </div>
     <div class="row well">
       <div class="col-lg-6">
@@ -89,7 +88,7 @@
                 <!-- Drop down list of items -->
                 <!-- Loaded from the Items array in the controller -->
                 <label for="Item">Select Item:</label>
-                <select class="form-control" id="Item" data-ng-model="Item">
+                  <select class="form-control" id="Item" data-ng-model="Item">
                     <option ng-repeat="i in Items" value="{{i.ItemName}}">{{i.ItemName}}</option>
                   </select>
               </div>
