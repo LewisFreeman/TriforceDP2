@@ -122,12 +122,6 @@
               <div class="col-md-6">
                 <h2 class="border-bottom">Sales Record View</h2>
               </div>
-              <div class="col-md-5 text-center">
-                <button class="btn btn-primary btn-wide" ng-click="sortBy('item')">Sort by Name</button>
-                <button class="btn btn-primary btn-wide" ng-click="sortBy('quantity')">Sort by Quantity</button>
-                <button class="btn btn-primary btn-wide" ng-click="sortBy('date')">Sort by Date</button>
-                <button class="btn btn-primary btn-wide" ng-click="sortBy('price')">Sort by Price</button>
-              </div>
             </div>
             <div class="row">
               <div class="col-md-12 pre-scrollable">
@@ -151,6 +145,16 @@
                     </tr>
                   </tbody>
                 </table>
+              </div>
+              <br>
+            </div>
+            <br>
+            <div class="row text-center">
+              <div class="col-md-12">
+                <button class="btn btn-primary" ng-click="sortBy('item')">Sort by Name</button>
+                <button class="btn btn-primary" ng-click="sortBy('quantity')">Sort by Quantity</button>
+                <button class="btn btn-primary" ng-click="sortBy('date')">Sort by Date</button>
+                <button class="btn btn-primary" ng-click="sortBy('price')">Sort by Price</button>
               </div>
             </div>
           </div>

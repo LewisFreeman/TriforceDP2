@@ -5,6 +5,8 @@ app.controller('myCtrl', function($scope, $http) {
   //Initialize the cart array on page startup
   $scope.Cart = [];
   $scope.Items = [];
+  $scope.Number = 1;
+  $scope.Price = 0;
 
   //Get the values to fill the drop down from the db
   $http({
@@ -17,7 +19,7 @@ app.controller('myCtrl', function($scope, $http) {
   });
 
   //Function called to add items from the input fields to the cart
-  $scope.Add = function (Item, Number) {
+  $scope.Add = function (Item, Number, Price) {
 
     //Initialize error to a null value
     $scope.error = "";
@@ -30,7 +32,7 @@ app.controller('myCtrl', function($scope, $http) {
     else
       {
         //If valid then retrieve the price of the requested item from the items array
-        var price = $scope.GetPrice(Item, Number);
+        var price = Price * Number;
 
         var id = $scope.GetId(Item);
 
@@ -104,6 +106,11 @@ app.controller('myCtrl', function($scope, $http) {
   //Called from the html to remove an item from the cart array
   $scope.Delete = function (Item) {
     $scope.Cart.splice($scope.Cart.indexOf(Item), 1);
+  };
+
+  $scope.FillPrice = function (Item) {
+    var index = $scope.Items.findIndex(x=>x.ItemName === $scope.Item);
+    $scope.Price = parseInt($scope.Items[index].Price);
   };
 
   //Called from the html to clear the cart
