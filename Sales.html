@@ -100,7 +100,7 @@
                     </div>
                     <div class="row">
                       <div class="col-md-6">
-                        <input id="Date" type="text" data-ng-model="Date">
+                        <input id="Date" type="text" data-ng-model="Date" placeholder="yyyy-mm-dd">
                       </div>
                       <div class="col-md-6">
                         <span>$</span><input id="Price" type="number" data-ng-model="Price">
@@ -109,6 +109,7 @@
                     <br>
                     <div class="row">
                       <div class="col-md-12 text-center">
+                        <p class="text-danger">{{UpdateError}}</p>
                         <button class="btn btn-success btn-wide" ng-click="Update(Number, Name, Quantity, Date, Price)">Update</button>
                       </div>
                     </div>

@@ -42,11 +42,25 @@ myApp.controller('salesRecordsController', function ($scope, $http)
   };
 
   $scope.Update = function (Number, Name, Quantity, Date, Price) {
-    $http.post(
-        "php/updateRecords.php",
-        {'ID':Number, 'Name':Name, 'Quantity':Quantity, 'Date':Date, 'Price':Price}
-      )
+    $scope.UpdateError = "";
+    if ($scope.Validate(Date))
+      {
+        $http.post(
+          "php/updateRecords.php",
+          {'ID':Number, 'Name':Name, 'Quantity':Quantity, 'Date':Date, 'Price':Price}
+        )
+      }
+    else
+      {
+        $scope.UpdateError = "Error: Date not valid, ensure it matches a yyyy-mm-dd pattern";
+      }
   };
+
+  $scope.Validate = function (Date) {
+    result = false;
+    result = /(\d){4}(-(\d){2}){2}/.test(Date);
+    return result;
+  }
 
   $http({
     method: 'GET',
