@@ -88,9 +88,9 @@
                 <!-- Drop down list of items -->
                 <!-- Loaded from the Items array in the controller -->
                 <label for="Item">Select Item:</label>
-                  <select class="form-control" id="Item" data-ng-model="Item" ng-change="FillPrice(Item)">
-                    <option ng-repeat="i in Items" value="{{i.ItemName}}">{{i.ItemName}}</option>
-                  </select>
+                <select class="form-control" id="Item" data-ng-model="Item" ng-change="FillPrice(Item)">
+                  <option ng-repeat="i in Items" value="{{i.ItemName}}">{{i.ItemName}}</option>
+                </select>
               </div>
             </div>
             <div class="row">

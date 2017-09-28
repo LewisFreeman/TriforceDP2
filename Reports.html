@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-ng-app="myApp">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -9,7 +9,7 @@
     <!-- Custom stylesheet -->
     <link href="css/styles.css" rel="stylesheet" />
   </head>
-  <body data-ng-app="PHPSRePS" data-ng-controller="salesRecordsController">
+  <body data-ng-app="PHPSRePS" data-ng-controller="myCtrl">
     <div class="container">
       <nav class="navbar navbar-default">
         <div class="contianer navbar-container">
@@ -39,9 +39,51 @@
       <div class="row well">
         <div class="col-lg-6 well">
           <h3 class="border-bottom">Filters</h3>
+          <div class="row">
+            <div class="col-lg-12">
+              <label for="Month">Month:</label>
+              <select class="form-control" id="Month" data-ng-model="Month">
+                <option ng-repeat="m in Months" value="{{m.name}}">{{m.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <label for="Week">Week: (Optional)</label>
+              <select class="form-control" id="Week" data-ng-model="Week">
+                <option ng-repeat="w in Weeks" value="{{w.name}}">{{w.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <label for="Item">Item: (Optional)</label>
+              <select class="form-control" id="Item" data-ng-model="Item">
+                <option ng-repeat="i in Items" value="{{i.ItemName}}">{{i.ItemName}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 text-center">
+              <br>
+              <button type="button" class="btn btn-success btn-lg" ng-click="GenerateReport(Month, Week, Item)">Generate Report</button>
+            </div>
+          </div>
         </div>
         <div class="col-lg-6">
-          <h3 class="border-bottom">Reports</h3>
+          <h3 class="border-bottom">Report</h3>
+          <div class="row" ng-show="report">
+            <div class="col-lg-12 text-center">
+              <p>Report goes here</p>
+              <br>
+              <button type="button" class="btn btn-info" ng-click="">Output to CSV</button>
+            </div>
+          </div>
+          <div class="row" ng-hide="report">
+            <div class="col-lg-12 text-center">
+              <p>{{info}}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
