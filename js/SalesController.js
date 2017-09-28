@@ -2,27 +2,38 @@ console.log("sales controller loaded");
 var myApp = angular.module('PHPSRePS', []);
 myApp.controller('salesRecordsController', function ($scope, $http)
 {
-  console.log("controller scope start");
+  $scope.FillItems = function () {
+    $http({
+      method: 'GET',
+      url: 'php/getItems.php'
+    }).then(function successCallback(response) {
+      $scope.Items = response.data;
+    }, function errorCallback(response) {
+      console.log("ERROR: Could not find getItems.php");
+    });
+  }
+
+  $scope.FillTable = function () {
+    $http({
+      method: 'GET',
+      url: 'php/getSalesRecords.php'
+    }).then(function successCallback(response) {
+      $scope.salesRecords = response.data;
+    }, function errorCallback(response) {
+      console.log("ERROR: no response recieved");
+    });
+  }
 
   $scope.Items = [];
-  //Get the values to fill the drop down from the db
-  $http({
-    method: 'GET',
-    url: 'php/getItems.php'
-  }).then(function successCallback(response) {
-    $scope.Items = response.data;
-  }, function errorCallback(response) {
-    console.log("ERROR: Could not find getItems.php");
-  });
-
+  $scope.FillItems();
   $scope.salesRecords = [];
-
+  $scope.FillTable();
   $scope.sortAttri = "saleNumber";
   $scope.sortReverse = false;
   $scope.sortBy = function(btn)
   {
     $scope.sortReverse=($scope.sortAttri==btn)?!$scope.sortReverse:false;
-  $scope.sortAttri=btn;
+    $scope.sortAttri=btn;
   }
 
   $scope.Search = function (ID) {
@@ -43,38 +54,51 @@ myApp.controller('salesRecordsController', function ($scope, $http)
 
   $scope.Update = function (Number, Name, Quantity, Date, Price) {
     $scope.UpdateError = "";
-    if ($scope.Validate(Date))
+    $scope.UpdateError = $scope.Validate($scope.UpdateError, Date, Price, Quantity);
+    if ($scope.UpdateError == "")
       {
         $http.post(
           "php/updateRecords.php",
           {'ID':Number, 'Name':Name, 'Quantity':Quantity, 'Date':Date, 'Price':Price}
         )
+        //This does not update the table, possible that it is to fast and the mySQL is not updated yet?
+        $scope.FillTable();
       }
     else
       {
-        $scope.UpdateError = "Error: Date not valid, ensure it matches a yyyy-mm-dd pattern";
+        $scope.UpdateError = "Error: " + $scope.UpdateError;
       }
   };
 
-  $scope.Validate = function (Date) {
-    result = false;
-    result = /(\d){4}(-(\d){2}){2}/.test(Date);
-    return result;
+  $scope.Validate = function (Message, Date, Price, Quantity) {
+    if (!(/(\d){4}(-(\d){2}){2}/.test(Date)))
+      {
+        Message += "Date is not in correct format (yyyy-mm-dd)"
+      }
+    if (Price < 0)
+      {
+        if (Message != "")
+          {
+            Message += " & "
+          }
+        Message += "Price must be a positive number"
+      }
+    if (Quantity < 0)
+      {
+        if (Message != "")
+          {
+            Message += " & "
+          }
+        Message += "Quantity must be a positive number"
+      }
+    if (Quantity % 1 != 0)
+      {
+        if (Message != "")
+          {
+            Message += " & "
+          }
+        Message += "Quantity must be a whole number"
+      }
+    return Message;
   }
-
-  $http({
-    method: 'GET',
-    url: 'php/getSalesRecords.php'
-  }).then(function successCallback(response) {
-    $scope.salesRecords = response.data;
-    console.log("response received from getSalesRecords");
-    console.log($scope.salesRecords);
-
-  }, function errorCallback(response) {
-    console.log("no response recieved");
-  });
-
-  console.log("controller scope end");
 });
-
-console.log("sales controller end");
