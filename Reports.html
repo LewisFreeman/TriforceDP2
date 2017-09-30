@@ -57,7 +57,7 @@
           </div>
           <div class="row">
             <div class="col-lg-12">
-              <label for="Item">Item: (Optional)</label>
+              <label for="Item">Item:</label>
               <select class="form-control" id="Item" data-ng-model="Item">
                 <option ng-repeat="i in Items" value="{{i.ItemName}}">{{i.ItemName}}</option>
               </select>
@@ -66,6 +66,7 @@
           <div class="row">
             <div class="col-lg-12 text-center">
               <br>
+              <p class="text-danger">{{Error}}</p>
               <button type="button" class="btn btn-success btn-lg" ng-click="GenerateReport(Month, Week, Item)">Generate Report</button>
             </div>
           </div>
@@ -73,8 +74,15 @@
         <div class="col-lg-6">
           <h3 class="border-bottom">Report</h3>
           <div class="row" ng-show="report">
-            <div class="col-lg-12 text-center">
-              <p>Report goes here</p>
+            <div class="col-lg-12">
+              <p>Month: {{Month}}</p>
+              <p ng-show="Week != null">Week: {{Week}}</p>
+              <p>Item: {{Item}}</p>
+              <br>
+              <p>Quantity purchased in {{Month}}: {{GetMonthPurchase(Month, Item)}}</p>
+              <p>Change from previous month ({{GetPrevMonth(Month)}}): {{GetMonthChange(Month, Item)}}%</p>
+              <br>
+              <p>Total Profit: ${{MonthProfit(Month, Item)}}</p>
               <br>
               <button type="button" class="btn btn-info" ng-click="">Output to CSV</button>
             </div>
