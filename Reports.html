@@ -42,7 +42,7 @@
           <div class="row">
             <div class="col-lg-12">
               <label for="Month">Month:</label>
-              <select class="form-control" id="Month" data-ng-model="Month">
+              <select class="form-control" id="Month" data-ng-model="Month" ng-change="report = 0">
                 <option ng-repeat="m in Months" value="{{m.name}}">{{m.name}}</option>
               </select>
             </div>
@@ -50,7 +50,7 @@
           <div class="row">
             <div class="col-lg-12">
               <label for="Week">Week: (Optional)</label>
-              <select class="form-control" id="Week" data-ng-model="Week">
+              <select class="form-control" id="Week" data-ng-model="Week" ng-change="report = 0">
                 <option ng-repeat="w in Weeks" value="{{w.name}}">{{w.name}}</option>
               </select>
             </div>
@@ -58,7 +58,7 @@
           <div class="row">
             <div class="col-lg-12">
               <label for="Item">Item:</label>
-              <select class="form-control" id="Item" data-ng-model="Item">
+              <select class="form-control" id="Item" data-ng-model="Item" ng-change="report = 0">
                 <option ng-repeat="i in Items" value="{{i.ItemName}}">{{i.ItemName}}</option>
               </select>
             </div>
@@ -79,10 +79,10 @@
               <p ng-show="Week != null">Week: {{Week}}</p>
               <p>Item: {{Item}}</p>
               <br>
-              <p>Quantity purchased in {{Month}}: {{GetMonthPurchase(Month, Item)}}</p>
-              <p>Change from previous month ({{GetPrevMonth(Month)}}): {{GetMonthChange(Month, Item)}}%</p>
+              <p>Quantity purchased in {{Month}}: {{purchased}}</p>
+              <p>Change from previous month ({{GetPrevMonth(Month)}}): {{diff | number:2}}%</p>
               <br>
-              <p>Total Profit: ${{MonthProfit(Month, Item)}}</p>
+              <p>Total Profit: ${{profit | number:2}}</p>
               <br>
               <button type="button" class="btn btn-info" ng-click="">Output to CSV</button>
             </div>

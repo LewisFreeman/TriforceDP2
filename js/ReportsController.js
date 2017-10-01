@@ -35,18 +35,36 @@ app.controller('myCtrl', function($scope, $http) {
     });
   }
 
+  $scope.Refresh = function () {
+    $scope.report = 0;
+    $scope.purchased = 0;
+    $scope.diff = 0;
+    $scope.profit = 0;
+  };
+
   $scope.salesRecords = [];
   $scope.GetRecords();
   $scope.Items = [];
   $scope.FillItems();
   $scope.info = "Enter filters to generate report";
-  $scope.report = 0;
+  $scope.Refresh();
 
   $scope.GenerateReport = function (Month, Week, Item) {
+    $scope.Refresh();
     $scope.Error = "";
     $scope.Error = $scope.Validate($scope.Error, Month, Item);
     if ($scope.Error == "")
     {
+      if (Week == null)
+        {
+          $scope.purchased = $scope.GetMonthPurchase(Month, Item);
+          $scope.diff = $scope.GetMonthDiff(Month, Item);
+          $scope.profit = $scope.MonthProfit(Month, Item);
+        }
+      else
+        {
+
+        }
       $scope.report = 1;
     }
     else
@@ -56,7 +74,7 @@ app.controller('myCtrl', function($scope, $http) {
   };
 
   $scope.GetMonthPurchase = function (Month, Item) {
-    Stock = 0;
+    var Stock = 0;
     for (var i = 0; i < $scope.salesRecords.length; i++)
       {
         if (($scope.GetMonthNumber(Month) == $scope.GetMonthNumberForRecord($scope.salesRecords[i].Date))&& ($scope.salesRecords[i].ItemName == Item))
@@ -64,10 +82,10 @@ app.controller('myCtrl', function($scope, $http) {
             Stock += $scope.salesRecords[i].Quantity;
           }
       }
-    return Stock;
+    return Stock
   };
 
-  $scope.GetMonthChange = function (Month, Item) {
+  $scope.GetMonthDiff = function (Month, Item) {
     PrevStock = $scope.GetMonthPurchase($scope.GetPrevMonth(Month), Item);
     CurrStock = $scope.GetMonthPurchase(Month, Item);
     if (PrevStock != 0)
@@ -76,20 +94,20 @@ app.controller('myCtrl', function($scope, $http) {
       }
     else
       {
-        return "-";
+        return 100;
       }
   };
 
   $scope.MonthProfit = function (Month, Item) {
-    Profit = 0;
+    var Sales = 0;
     for (var i = 0; i < $scope.salesRecords.length; i++)
       {
         if (($scope.GetMonthNumber(Month) == $scope.GetMonthNumberForRecord($scope.salesRecords[i].Date))&& ($scope.salesRecords[i].ItemName == Item))
           {
-            Profit += $scope.salesRecords[i].Price;
+            Sales += $scope.salesRecords[i].Price;
           }
       }
-    return Profit;
+    return Sales;
   };
 
   $scope.GetPrevMonth = function (Month) {
