@@ -63,7 +63,9 @@ app.controller('myCtrl', function($scope, $http) {
         }
       else
         {
-
+          $scope.purchased = $scope.GetWeekPurchase(Month, Week, Item);
+          $scope.diff = $scope.GetWeekDiff(Month, Week, Item);
+          $scope.profit = $scope.WeekProfit(Month, Week, Item);
         }
       $scope.report = 1;
     }
@@ -77,7 +79,19 @@ app.controller('myCtrl', function($scope, $http) {
     var Stock = 0;
     for (var i = 0; i < $scope.salesRecords.length; i++)
       {
-        if (($scope.GetMonthNumber(Month) == $scope.GetMonthNumberForRecord($scope.salesRecords[i].Date))&& ($scope.salesRecords[i].ItemName == Item))
+        if (($scope.GetMonthNumber(Month) == $scope.GetMonthNumberForRecord($scope.salesRecords[i].Date))&&($scope.salesRecords[i].ItemName == Item))
+          {
+            Stock += $scope.salesRecords[i].Quantity;
+          }
+      }
+    return Stock
+  };
+
+  $scope.GetWeekPurchase = function (Month, Week, Item) {
+    var Stock = 0;
+    for (var i = 0; i < $scope.salesRecords.length; i++)
+      {
+        if (($scope.GetMonthNumber(Month) == $scope.GetMonthNumberForRecord($scope.salesRecords[i].Date))&&($scope.salesRecords[i].ItemName == Item)&&($scope.CheckWeek(Week, $scope.GetDayNumberForRecord($scope.salesRecords[i].Date))))
           {
             Stock += $scope.salesRecords[i].Quantity;
           }
@@ -98,11 +112,27 @@ app.controller('myCtrl', function($scope, $http) {
       }
   };
 
+  $scope.GetWeekDiff = function (Month, Week, Item) {
+
+  };
+
   $scope.MonthProfit = function (Month, Item) {
     var Sales = 0;
     for (var i = 0; i < $scope.salesRecords.length; i++)
       {
         if (($scope.GetMonthNumber(Month) == $scope.GetMonthNumberForRecord($scope.salesRecords[i].Date))&& ($scope.salesRecords[i].ItemName == Item))
+          {
+            Sales += $scope.salesRecords[i].Price;
+          }
+      }
+    return Sales;
+  };
+
+  $scope.WeekProfit = function (Month, Week, Item) {
+    var Sales = 0;
+    for (var i = 0; i < $scope.salesRecords.length; i++)
+      {
+        if (($scope.GetMonthNumber(Month) == $scope.GetMonthNumberForRecord($scope.salesRecords[i].Date))&& ($scope.salesRecords[i].ItemName == Item)&&($scope.CheckWeek(Week, $scope.GetDayNumberForRecord($scope.salesRecords[i].Date))))
           {
             Sales += $scope.salesRecords[i].Price;
           }
@@ -140,6 +170,50 @@ app.controller('myCtrl', function($scope, $http) {
   $scope.GetMonthNumberForRecord = function (Date) {
     var parts = Date.split("-");
     return parts[1];
+  };
+
+  $scope.GetDayNumberForRecord = function (Date) {
+    var parts = Date.split("-");
+    return parts[2];
+  };
+
+  $scope.GetWeek = function (Week) {
+    var days = [];
+    switch(Week) {
+      case "Week1":
+          days = [1,7];
+          break;
+      case "Week2":
+          days = [8,14];
+          break;
+      case "Week3":
+          days = [15,21];
+          break;
+      case "Week4":
+          days = [22,31];
+          break;
+    }
+    return days;
+  };
+
+  $scope.CheckWeek = function (Week, RecordWeek) {
+    var days = $scope.GetWeek(Week);
+    for (var i = days[0]; i < days[1] + 1; i++)
+      {
+        if (RecordWeek == $scope.LeadingZero(i.toString()))
+          {
+            return true;
+          }
+      }
+    return false;
+  };
+
+  $scope.LeadingZero = function (Value) {
+    if (Value < 10)
+      {
+        Value = "0" + Value
+      }
+    return Value;
   };
 
   $scope.Validate = function (Message, Month, Item) {
