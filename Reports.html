@@ -67,7 +67,8 @@
             <div class="col-lg-12 text-center">
               <br>
               <p class="text-danger">{{Error}}</p>
-              <button type="button" class="btn btn-success btn-lg" ng-click="GenerateReport(Month, Week, Item)">Generate Report</button>
+              <button type="button" class="btn btn-success" ng-click="GenerateReport(Month, Week, Item)">Generate Report</button>
+              <button type="button" class="btn btn-danger" ng-click="Month = null; Week = null; Item = null">Clear</button>
             </div>
           </div>
         </div>
