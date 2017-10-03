@@ -30,9 +30,6 @@
               <li><a href="POS.html">POS</a></li>
               <li class="active"><a href="Sales.html">Sales Records</a></li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Log In</a></li>
-          </ul>
         </div>
       </nav>
       <div class="container">
@@ -41,8 +38,8 @@
             <form>
               <p>
                 <label for="searchFilter">Search Filter</label>
-                <input type="text" data-ng-model="search.item" placeholder="Search Item Name"/>
-                <input type="text" data-ng-model="search.date" placeholder="Search Date"/>
+                <input type="text" data-ng-model="search.ItemName" placeholder="Search Item Name"/>
+                <input type="text" data-ng-model="search.Date" placeholder="Search Date"/>
               </p>
             </form>
           </div>
@@ -152,10 +149,10 @@
             <br>
             <div class="row text-center">
               <div class="col-md-12">
-                <button class="btn btn-primary" ng-click="sortBy('item')">Sort by Name</button>
-                <button class="btn btn-primary" ng-click="sortBy('quantity')">Sort by Quantity</button>
-                <button class="btn btn-primary" ng-click="sortBy('date')">Sort by Date</button>
-                <button class="btn btn-primary" ng-click="sortBy('price')">Sort by Price</button>
+                <button class="btn btn-primary" ng-click="sortBy('ItemName')">Sort by Name</button>
+                <button class="btn btn-primary" ng-click="sortBy('Quantity')">Sort by Quantity</button>
+                <button class="btn btn-primary" ng-click="sortBy('Date')">Sort by Date</button>
+                <button class="btn btn-primary" ng-click="sortBy('Price')">Sort by Price</button>
               </div>
             </div>
           </div>
