@@ -42,6 +42,8 @@ app.controller('myCtrl', function($scope, $http) {
     $scope.profit = 0;
   };
 
+  var currentTime = new Date()
+  $scope.Year = currentTime.getFullYear()
   $scope.salesRecords = [];
   $scope.GetRecords();
   $scope.Items = [];
@@ -49,17 +51,17 @@ app.controller('myCtrl', function($scope, $http) {
   $scope.info = "Enter filters to generate report";
   $scope.Refresh();
 
-  $scope.GenerateReport = function (Month, Week, Item) {
+  $scope.GenerateReport = function (Month, Week, Year, Item) {
     $scope.Refresh();
     $scope.Error = "";
-    $scope.Error = $scope.Validate($scope.Error, Month, Item);
+    $scope.Error = $scope.Validate($scope.Error, Month, Year, Item);
     if ($scope.Error == "")
     {
       if (Week == null)
         {
-          $scope.purchased = $scope.GetMonthPurchase(Month, Item);
-          $scope.diff = $scope.GetMonthDiff(Month, Item);
-          $scope.profit = $scope.MonthProfit(Month, Item);
+          $scope.purchased = $scope.GetMonthPurchase(Month, Year, Item);
+          $scope.diff = $scope.GetMonthDiff(Month, Year, Item);
+          $scope.profit = $scope.MonthProfit(Month, Year, Item);
         }
       else
         {
@@ -75,11 +77,11 @@ app.controller('myCtrl', function($scope, $http) {
     }
   };
 
-  $scope.GetMonthPurchase = function (Month, Item) {
+  $scope.GetMonthPurchase = function (Month, Year, Item) {
     var Stock = 0;
     for (var i = 0; i < $scope.salesRecords.length; i++)
       {
-        if (($scope.GetMonthNumber(Month) == $scope.GetMonthNumberForRecord($scope.salesRecords[i].Date))&&($scope.salesRecords[i].ItemName == Item))
+        if (($scope.GetMonthNumber(Month) == $scope.GetMonthNumberForRecord($scope.salesRecords[i].Date))&&($scope.salesRecords[i].ItemName == Item)&&(Year.toString() == $scope.GetYearNumberForRecord($scope.salesRecords[i].Date)))
           {
             Stock += $scope.salesRecords[i].Quantity;
           }
@@ -99,9 +101,9 @@ app.controller('myCtrl', function($scope, $http) {
     return Stock
   };
 
-  $scope.GetMonthDiff = function (Month, Item) {
-    PrevStock = $scope.GetMonthPurchase($scope.GetPrevMonth(Month), Item);
-    CurrStock = $scope.GetMonthPurchase(Month, Item);
+  $scope.GetMonthDiff = function (Month, Year, Item) {
+    PrevStock = $scope.GetMonthPurchase($scope.GetPrevMonth(Month), $scope.CheckPrevYear(Month, Year), Item);
+    CurrStock = $scope.GetMonthPurchase(Month, Year, Item);
     if (PrevStock != 0)
       {
         return (CurrStock - PrevStock)/Math.abs(PrevStock) * 100
@@ -116,11 +118,11 @@ app.controller('myCtrl', function($scope, $http) {
 
   };
 
-  $scope.MonthProfit = function (Month, Item) {
+  $scope.MonthProfit = function (Month, Year, Item) {
     var Sales = 0;
     for (var i = 0; i < $scope.salesRecords.length; i++)
       {
-        if (($scope.GetMonthNumber(Month) == $scope.GetMonthNumberForRecord($scope.salesRecords[i].Date))&& ($scope.salesRecords[i].ItemName == Item))
+        if (($scope.GetMonthNumber(Month) == $scope.GetMonthNumberForRecord($scope.salesRecords[i].Date))&& ($scope.salesRecords[i].ItemName == Item)&&(Year.toString() == $scope.GetYearNumberForRecord($scope.salesRecords[i].Date)))
           {
             Sales += $scope.salesRecords[i].Price;
           }
@@ -141,6 +143,10 @@ app.controller('myCtrl', function($scope, $http) {
   };
 
   $scope.GetPrevMonth = function (Month) {
+    if (Month == "January")
+      {
+        return "December"
+      }
     for (var i = 0; i < $scope.Months.length; i++)
       {
         if (Month == $scope.Months[i].name)
@@ -149,6 +155,14 @@ app.controller('myCtrl', function($scope, $http) {
           }
       }
     return null;
+  };
+
+  $scope.CheckPrevYear = function (Month, Year) {
+    if (Month == "January")
+      {
+        return Year - 1;
+      }
+    return Year;
   };
 
   $scope.GetStock = function (Item) {
@@ -175,6 +189,11 @@ app.controller('myCtrl', function($scope, $http) {
   $scope.GetDayNumberForRecord = function (Date) {
     var parts = Date.split("-");
     return parts[2];
+  };
+
+  $scope.GetYearNumberForRecord = function (Date) {
+    var parts = Date.split("-");
+    return parts[0];
   };
 
   $scope.GetWeek = function (Week) {
@@ -216,7 +235,7 @@ app.controller('myCtrl', function($scope, $http) {
     return Value;
   };
 
-  $scope.Validate = function (Message, Month, Item) {
+  $scope.Validate = function (Message, Month, Year, Item) {
     if (Month == null)
       {
         Message += "You must select a month"
@@ -228,6 +247,22 @@ app.controller('myCtrl', function($scope, $http) {
             Message += " & "
           }
         Message += "You must select an item"
+      }
+    if (Year == null)
+      {
+        if (Message != "")
+          {
+            Message += " & "
+          }
+        Message += "You must select a year"
+      }
+    if ((Year < 2000)||(Year > currentTime.getFullYear()))
+      {
+        if (Message != "")
+          {
+            Message += " & "
+          }
+        Message += "You must select a valid year"
       }
     return Message;
   };
