@@ -2,50 +2,73 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>PHP-SRePS - Sales Reports</title>
+	<title>PHP-SRePS - Sales Reports</title>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/styles.css" />
 </head>
 
-<body data-ng-app="PHPSRePS" data-ng-controller="salesRecordsController">
-    <div class="container">
-      <nav class="navbar navbar-default">
-        <div class="contianer navbar-container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+<body data-ng-app="PHPSRePS">
+	<div class="container" data-ng-controller="salesRecordsController">
+		<nav class="navbar navbar-default">
+			<div class="contianer navbar-container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
               <span class="sr-only">Toggle Navigation</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">PHP-SRePS</a>
-          </div>
-        </div>
-        <div class="collapse navbar-collapse" id="navbar-collapse-1">
-          <ul class="nav navbar-nav">
-              <li><a href="Home.html">Home </a></li>
-              <li class="active"><a href="Reports.html">Reports</a></li>
-              <li><a href="POS.html">POS</a></li>
-              <li><a href="Sales.html">Sales Records</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Log In</a></li>
-          </ul>
-        </div>
-      </nav>
-      <h1>TODO: Add stuff</h1>
-    </div>
+					<a class="navbar-brand" href="#">PHP-SRePS</a>
+				</div>
+			</div>
+			<div class="collapse navbar-collapse" id="navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a href="Home.html">Home </a></li>
+					<li class="active"><a href="Reports.html">Reports</a></li>
+					<li><a href="POS.html">POS</a></li>
+					<li><a href="Sales.html">Sales Records</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Log In</a></li>
+				</ul>
+			</div>
+		</nav>
 
+		<div id="reportContainer" class="container" data-ng-controller="reportQueueController">
+			<div class="row">
+				<div class="col-md-4">
+					<h2>Report Queue</h2>
+				</div>
+			</div>
+			
+			<!-- FOR TESTING STYLING, DELETE 
+			<div class="row">
+				<div class="col-md-6">
+					<p class="reportQueue reportAlert">Warning: item 'TODO' is OUT of stock! [<a href="#">Re-order item]</a></p>
+				</div>
+			</div> -->
+			
+			
+			<div class="row">
+				<div class="col-md-6" data-ng-repeat="report in itemReports">
+					<p class="reportQueue {{report.styling}}"> {{report.importance}}: Item <strong>'{{report.itemId}}'</strong> is {{report.state}} stock. [<a href="#">Re-order item]</a></p>
+				</div>
+			</div>
+		</div>
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/angular.min.js"></script>
-    <script src="js/SalesController.js"></script>
+	</div>
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/angular.min.js"></script>
+	<script src="js/SalesController.js"></script>
+	<script src="js/reportQueueController.js"></script>
 </body>
 
 </html>

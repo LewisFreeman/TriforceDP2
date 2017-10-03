@@ -31,3 +31,19 @@
   width: 68%;
 }
 
+.reportQueue {
+	padding: 5px;
+}
+
+.reportQueue a {
+	font-weight: bold;
+	color: black;
+}
+
+.reportWarning {
+	background: #FBFF14;
+}
+
+.reportAlert {
+	background: #EF0000;
+}
