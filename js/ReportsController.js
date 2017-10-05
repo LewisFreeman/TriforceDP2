@@ -65,9 +65,9 @@ app.controller('myCtrl', function($scope, $http) {
         }
       else
         {
-          $scope.purchased = $scope.GetWeekPurchase(Month, Week, Item);
-          $scope.diff = $scope.GetWeekDiff(Month, Week, Item);
-          $scope.profit = $scope.WeekProfit(Month, Week, Item);
+          $scope.purchased = $scope.GetWeekPurchase(Month, Week, Year, Item);
+          $scope.diff = $scope.GetWeekDiff(Month, Week, Year, Item);
+          $scope.profit = $scope.WeekProfit(Month, Week, Year, Item);
         }
       $scope.report = 1;
     }
@@ -89,11 +89,11 @@ app.controller('myCtrl', function($scope, $http) {
     return Stock
   };
 
-  $scope.GetWeekPurchase = function (Month, Week, Item) {
+  $scope.GetWeekPurchase = function (Month, Week, Year, Item) {
     var Stock = 0;
     for (var i = 0; i < $scope.salesRecords.length; i++)
       {
-        if (($scope.GetMonthNumber(Month) == $scope.GetMonthNumberForRecord($scope.salesRecords[i].Date))&&($scope.salesRecords[i].ItemName == Item)&&($scope.CheckWeek(Week, $scope.GetDayNumberForRecord($scope.salesRecords[i].Date))))
+        if (($scope.GetMonthNumber(Month) == $scope.GetMonthNumberForRecord($scope.salesRecords[i].Date))&&($scope.salesRecords[i].ItemName == Item)&&($scope.CheckWeek(Week, $scope.GetDayNumberForRecord($scope.salesRecords[i].Date)))&&(Year.toString() == $scope.GetYearNumberForRecord($scope.salesRecords[i].Date)))
           {
             Stock += $scope.salesRecords[i].Quantity;
           }
@@ -110,12 +110,21 @@ app.controller('myCtrl', function($scope, $http) {
       }
     else
       {
-        return 100;
+        return 0;
       }
   };
 
-  $scope.GetWeekDiff = function (Month, Week, Item) {
-
+  $scope.GetWeekDiff = function (Month, Week, Year, Item) {
+    PrevStock = $scope.GetWeekPurchase($scope.CheckPrevMonth(Month, Week), $scope.GetPrevWeek(Week), $scope.CheckPrevYearWeek(Week, Month, Year), Item);
+    CurrStock = $scope.GetWeekPurchase(Month, Week, Year, Item);
+    if (PrevStock != 0)
+      {
+        return (CurrStock - PrevStock)/Math.abs(PrevStock) * 100
+      }
+    else
+      {
+        return 0;
+      }
   };
 
   $scope.MonthProfit = function (Month, Year, Item) {
@@ -130,11 +139,11 @@ app.controller('myCtrl', function($scope, $http) {
     return Sales;
   };
 
-  $scope.WeekProfit = function (Month, Week, Item) {
+  $scope.WeekProfit = function (Month, Week, Year, Item) {
     var Sales = 0;
     for (var i = 0; i < $scope.salesRecords.length; i++)
       {
-        if (($scope.GetMonthNumber(Month) == $scope.GetMonthNumberForRecord($scope.salesRecords[i].Date))&& ($scope.salesRecords[i].ItemName == Item)&&($scope.CheckWeek(Week, $scope.GetDayNumberForRecord($scope.salesRecords[i].Date))))
+        if (($scope.GetMonthNumber(Month) == $scope.GetMonthNumberForRecord($scope.salesRecords[i].Date))&& ($scope.salesRecords[i].ItemName == Item)&&($scope.CheckWeek(Week, $scope.GetDayNumberForRecord($scope.salesRecords[i].Date)))&&(Year.toString() == $scope.GetYearNumberForRecord($scope.salesRecords[i].Date)))
           {
             Sales += $scope.salesRecords[i].Price;
           }
@@ -157,12 +166,47 @@ app.controller('myCtrl', function($scope, $http) {
     return null;
   };
 
+  $scope.GetPrevWeek = function (Week) {
+    var PrevWeek = "";
+    switch(Week) {
+      case "Week1":
+          PrevWeek = "Week4";
+          break;
+      case "Week2":
+          PrevWeek = "Week1";
+          break;
+      case "Week3":
+          PrevWeek = "Week2";
+          break;
+      case "Week4":
+          PrevWeek = "Week3";
+          break;
+    }
+    return PrevWeek;
+  };
+
   $scope.CheckPrevYear = function (Month, Year) {
     if (Month == "January")
       {
         return Year - 1;
       }
     return Year;
+  };
+
+  $scope.CheckPrevYearWeek = function (Week, Month, Year) {
+    if ((Month == "January")&&(Week == "Week1"))
+      {
+        return Year - 1;
+      }
+    return Year;
+  };
+
+  $scope.CheckPrevMonth = function (Month, Week) {
+    if (Week == "Week1")
+      {
+        return $scope.GetPrevMonth(Month);
+      }
+    return Month;
   };
 
   $scope.GetStock = function (Item) {
