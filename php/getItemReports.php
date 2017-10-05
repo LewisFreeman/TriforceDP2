@@ -18,7 +18,7 @@
       }
 
       $row["importance"] = $imp;
-      $row["itemId"] = $r["itemId"];
+      $row["item"] = $r["item"];
 
       $rows[] = $row;
     }

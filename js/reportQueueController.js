@@ -9,6 +9,7 @@ myApp.controller('reportQueueController', function ($scope, $http)
     method: 'GET',
     url: 'php/getItemReports.php'
   }).then(function successCallback(response) {
+	  console.log(response);
     $scope.itemReports = response.data;
 
   }, function errorCallback(response) {

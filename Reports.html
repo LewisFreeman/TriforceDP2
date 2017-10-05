@@ -46,22 +46,15 @@
 					<h2>Report Queue</h2>
 				</div>
 			</div>
-			
-			<!-- FOR TESTING STYLING, DELETE 
+
 			<div class="row">
 				<div class="col-md-6">
-					<p class="reportQueue reportAlert">Warning: item 'TODO' is OUT of stock! [<a href="#">Re-order item]</a></p>
-				</div>
-			</div> -->
-			
-			
-			<div class="row">
-				<div class="col-md-6" data-ng-repeat="report in itemReports">
-					<p class="reportQueue {{report.styling}}"> {{report.importance}}: Item <strong>'{{report.itemId}}'</strong> is {{report.state}} stock. [<a href="#">Re-order item]</a></p>
+					<div data-ng-repeat="report in itemReports">
+						<p class="reportQueue {{report.styling}}"> {{report.importance}}: Item <strong>'{{report.item}}'</strong> is {{report.state}} stock. [<a href="#">Re-order item]</a></p>
+					</div>
 				</div>
 			</div>
 		</div>
-
 	</div>
 
 	<script src="js/jquery.min.js"></script>

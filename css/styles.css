@@ -41,9 +41,9 @@
 }
 
 .reportWarning {
-	background: #FBFF14;
+	background: #EF0000;
 }
 
 .reportAlert {
-	background: #EF0000;
+	background: #FBFF14;
 }
