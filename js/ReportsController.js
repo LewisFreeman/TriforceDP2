@@ -66,6 +66,13 @@ app.controller('myCtrl', function($scope, $http) {
           $scope.purchased = $scope.GetWeekPurchase(Month, Week, Item);
           $scope.diff = $scope.GetWeekDiff(Month, Week, Item);
           $scope.profit = $scope.WeekProfit(Month, Week, Item);
+          $scope.stock = $scope.GetStock(Item);
+            
+        if($scope.stock < 500)
+          {
+              alert("Reminder, Low on stock please restock soon");
+              document.getElementById('stock').style.color = 'red';
+          }
         }
       $scope.report = 1;
     }
@@ -153,6 +160,7 @@ app.controller('myCtrl', function($scope, $http) {
 
   $scope.GetStock = function (Item) {
     var index = $scope.Items.findIndex(x=>x.ItemName === Item);
+
     return $scope.Items[index].Stock;
   };
 

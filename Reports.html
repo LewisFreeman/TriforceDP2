@@ -79,6 +79,7 @@
               <br>
               <p ng-show="Week == null">Quantity purchased in {{Month}}: {{purchased}}</p>
               <p ng-show="Week != null">Quantity purchased in {{Week}} of {{Month}}: {{purchased}}</p>
+                <p ng-show="Week != null">Current Stock Left in {{Item}}: <span id="stock">{{stock}}</span></p>
               <p>Change from previous month ({{GetPrevMonth(Month)}}): {{diff | number:2}}%</p>
               <br>
               <p>Total Profit: ${{profit | number:2}}</p>
