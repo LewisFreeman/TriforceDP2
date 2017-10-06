@@ -61,8 +61,8 @@ app.controller('myCtrl', function($scope, $window, $http) {
                 $scope.Cart[index].price += price;
               }
           }
+        $scope.CartPanel = false;
       }
-    $scope.CartPanel = false;
   };
 
   //Validation function

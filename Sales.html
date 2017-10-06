@@ -33,23 +33,12 @@
         </div>
       </nav>
       <div class="container">
-        <div class="row">
-          <div class="col-md-offset-3">
-            <form>
-              <p>
-                <label for="searchFilter">Search Filter</label>
-                <input type="text" data-ng-model="search.ItemName" placeholder="Search Item Name"/>
-                <input type="text" data-ng-model="search.Date" placeholder="Search Date"/>
-              </p>
-            </form>
-          </div>
-        </div>
         <div class="row ">
-          <div class="col-md-6 well">
+          <div class="col-md-6 well" ng-hide="Window() && Edit == false">
             <div class="row">
               <div class="col-md-12">
                 <h2 class="border-bottom">Edit Sales Records</h2>
-              </div	>
+              </div>
             </div>
             <div class="row">
               <div class="col-md-12">
@@ -115,9 +104,9 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6 well">
+          <div class="col-md-6 well" ng-hide="Edit">
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <h2 class="border-bottom">Sales Record View</h2>
               </div>
             </div>
@@ -147,12 +136,23 @@
               <br>
             </div>
             <br>
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <form>
+                  <p>
+                    <input type="text" data-ng-model="search.ItemName" placeholder="Search Item Name"/>
+                    <input type="text" data-ng-model="search.Date" placeholder="Search Date"/>
+                  </p>
+                </form>
+              </div>
+            </div>
             <div class="row text-center">
               <div class="col-md-12">
                 <button class="btn btn-primary" ng-click="sortBy('ItemName')">Sort by Name</button>
                 <button class="btn btn-primary" ng-click="sortBy('Quantity')">Sort by Quantity</button>
                 <button class="btn btn-primary" ng-click="sortBy('Date')">Sort by Date</button>
                 <button class="btn btn-primary" ng-click="sortBy('Price')">Sort by Price</button>
+                <button class="btn btn-success" ng-click="SetEdit()" ng-show="Window() && Edit == false">Edit Records</button>
               </div>
             </div>
           </div>
