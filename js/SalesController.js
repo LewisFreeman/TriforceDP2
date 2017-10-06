@@ -1,6 +1,6 @@
 console.log("sales controller loaded");
 var myApp = angular.module('PHPSRePS', []);
-myApp.controller('salesRecordsController', function ($scope, $http)
+myApp.controller('salesRecordsController', function ($scope, $window, $http)
 {
   $scope.FillItems = function () {
     $http({
@@ -30,6 +30,8 @@ myApp.controller('salesRecordsController', function ($scope, $http)
   $scope.FillTable();
   $scope.sortAttri = "saleNumber";
   $scope.sortReverse = false;
+  $scope.Edit = false;
+
   $scope.sortBy = function(btn)
   {
     $scope.sortReverse=($scope.sortAttri==btn)?!$scope.sortReverse:false;
@@ -63,11 +65,24 @@ myApp.controller('salesRecordsController', function ($scope, $http)
         )
         //This does not update the table, possible that it is to fast and the mySQL is not updated yet?
         $scope.FillTable();
+        $scope.Edit = false;
       }
     else
       {
         $scope.UpdateError = "Error: " + $scope.UpdateError;
       }
+  };
+
+  $scope.Window = function () {
+    if ($window.innerWidth <= 768)
+      {
+        return true;
+      }
+    return false;
+  };
+
+  $scope.SetEdit = function () {
+    $scope.Edit = true;
   };
 
   $scope.Validate = function (Message, Date, Price, Quantity) {
