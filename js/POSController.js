@@ -2,70 +2,60 @@ var app = angular.module('myApp', []);
 
 app.controller('myCtrl', function($scope, $http) {
 
-  //Initialize the cart array on page startup
+  //Function to pull info from the db to populate the items list
+  $scope.FillItems = function () {
+    $http({
+      method: 'GET',
+      url: 'php/getItems.php'
+    }).then(function successCallback(response) {
+      $scope.Items = response.data;
+    }, function errorCallback(response) {
+      console.log("ERROR: Could not find getItems.php");
+    });
+  };
+
+  //Initialize data
   $scope.Cart = [];
   $scope.Items = [];
+  $scope.FillItems();
   $scope.Number = 1;
   $scope.Price = 0;
 
-  //Get the values to fill the drop down from the db
-  $http({
-    method: 'GET',
-    url: 'php/getItems.php'
-  }).then(function successCallback(response) {
-    $scope.Items = response.data;
-  }, function errorCallback(response) {
-    console.log("ERROR: Could not find getItems.php");
-  });
-
-  //Function called to add items from the input fields to the cart
+  //Function called to add items to the cart
   $scope.Add = function (Item, Number, Price) {
-
-    //Initialize error to a null value
+    //Validation of input
     $scope.error = "";
-    //Check that the input fields are not empty/valid
-    if (Item == null || Number == 0 || Number == null || Number % 1 != 0)
+    $scope.error = $scope.Validate($scope.error, Item, Number, Price);
+    if (!($scope.error == ""))
       {
-        //If invalid then set error
-        $scope.error = "Error: Invalid input, please check that fields contain values & values must be whole numbers!";
+        $scope.error = "Error: " + $scope.error;
       }
     else
       {
-        //If valid then retrieve the price of the requested item from the items array
         var price = Price * Number;
-
-        var id = $scope.GetId(Item);
-
-        //Check to see if the cart already contains an entry for the item requested
+        //Find the index of the item in the cart (if it does not exist in cart already index will be -1)
         var index = $scope.Cart.findIndex(x=>x.name === Item);
-
-        //If the index is -1 then it was not found, if any other value then the cart already contains and entry for the item
         if (index == -1)
           {
-            //Users must request a positive number of items
+            //Not in cart, add it to card if number is positive
             if (Number > 0)
               {
-                //Add the item to the cart
-                $scope.Cart.push({id: id, name: Item, amount: Number, price: price});
+                $scope.Cart.push({name: Item, amount: Number, price: price});
               }
             else
               {
-                //If a negative or 0 is requested spit back an error
                 $scope.error = "Error: Negative purchase being applied to non-existent cart item";
               }
           }
         else
           {
-            //The cart already contains an entry for this item
+            //already in cart, update cart item or remove from cart if a negative is requested
             if ($scope.Cart[index].amount + Number < 1)
               {
-                //If the new value of the item would make the total requested item number 0 or less
-                //Remove the entry from the cart
                 $scope.Cart.splice(index, 1);
               }
             else
               {
-                //If the request amount would not put the entry to 0 or negative then update it
                 $scope.Cart[index].amount += Number;
                 $scope.Cart[index].price += price;
               }
@@ -73,52 +63,72 @@ app.controller('myCtrl', function($scope, $http) {
       }
   };
 
-  //Called from the html to display the total price of all cart items
-  $scope.GetTotal = function () {
-    //Initialize price to 0
-    var totalprice = 0;
+  //Validation function
+  $scope.Validate = function (Message, Item, Number, Price) {
+    //Check that an item has been selected
+    if (Item == null)
+      {
+        Message += "You must select an item"
+      }
+    //Check that price is positive
+    if (Price < 0)
+      {
+        if (Message != "")
+          {
+            Message += " & "
+          }
+        Message += "Price must be a positive number"
+      }
+    //Check that quantity is not 0
+    if (Number == 0)
+      {
+        if (Message != "")
+          {
+            Message += " & "
+          }
+        Message += "Quantity must not be 0"
+      }
+    //Check that quantity is a whole number
+    if (Number % 1 != 0)
+      {
+        if (Message != "")
+          {
+            Message += " & "
+          }
+        Message += "Quantity must be a whole number"
+      }
+    return Message;
+  };
 
-    //For each item, add it's price to the total
+  //Get the total price of all cart items
+  $scope.GetTotal = function () {
+    var totalprice = 0;
+    //Loop through the cart and add the cost of each item
     for (i = 0; i < $scope.Cart.length; i++)
       {
         totalprice += $scope.Cart[i].price;
       }
-
-    //Return the total
     return totalprice;
   };
 
-  //Utility function to return the price of a item in the items array
-  $scope.GetPrice = function (Item, Number) {
-    var index = $scope.Items.findIndex(x=>x.ItemName === Item);
-
-    //Multiplies the price found by the number of item requested
-    var price = $scope.Items[index].Price * Number;
-    return price;
-  };
-
-  $scope.GetId = function (Item) {
-    var index = $scope.Items.findIndex(x=>x.ItemName === Item);
-    var id = $scope.Items[index].id;
-    return id;
-  };
-
-  //Called from the html to remove an item from the cart array
+  //Delete an item from the cart
   $scope.Delete = function (Item) {
     $scope.Cart.splice($scope.Cart.indexOf(Item), 1);
   };
 
+  //Autofill the price box
   $scope.FillPrice = function (Item) {
     var index = $scope.Items.findIndex(x=>x.ItemName === $scope.Item);
     $scope.Price = parseInt($scope.Items[index].Price);
   };
 
-  //Called from the html to clear the cart
+  //Clear the cart
   $scope.ClearAll = function () {
     $scope.Cart = [];
     $scope.error = "";
   };
 
+  //Add cart items to the db
   $scope.Checkout = function(){
     console.log("Checkout clicked");
     for(i = 0; i < $scope.Cart.length; i++)

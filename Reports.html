@@ -1,67 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-ng-app="myApp">
 
 <head>
-	<!-- Required meta tags -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	<title>PHP-SRePS - Sales Reports</title>
-
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="css/bootstrap.min.css" />
-	<link rel="stylesheet" href="css/styles.css" />
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>PHP-SRePS - Sales Reports</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <!-- Custom stylesheet -->
+  <link href="css/styles.css" rel="stylesheet" />
 </head>
 
-<body data-ng-app="PHPSRePS">
-	<div class="container" data-ng-controller="salesRecordsController">
-		<nav class="navbar navbar-default">
-			<div class="contianer navbar-container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+<body data-ng-app="PHPSRePS" data-ng-controller="myCtrl">
+  <div class="container">
+    <nav class="navbar navbar-default">
+      <div class="contianer navbar-container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
               <span class="sr-only">Toggle Navigation</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-					<a class="navbar-brand" href="#">PHP-SRePS</a>
-				</div>
-			</div>
-			<div class="collapse navbar-collapse" id="navbar-collapse-1">
-				<ul class="nav navbar-nav">
-					<li><a href="Home.html">Home </a></li>
-					<li class="active"><a href="Reports.html">Reports</a></li>
-					<li><a href="POS.html">POS</a></li>
-					<li><a href="Sales.html">Sales Records</a></li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">Log In</a></li>
-				</ul>
-			</div>
-		</nav>
-
-		<div id="reportContainer" class="container" data-ng-controller="reportQueueController">
-			<div class="row">
-				<div class="col-md-4">
-					<h2>Report Queue</h2>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-6">
-					<div data-ng-repeat="report in itemReports">
-						<p class="reportQueue {{report.styling}}"> {{report.importance}}: Item <strong>'{{report.item}}'</strong> is {{report.state}} stock. [<a href="#">Re-order item]</a></p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/angular.min.js"></script>
-	<script src="js/SalesController.js"></script>
-	<script src="js/reportQueueController.js"></script>
+          <a class="navbar-brand" href="#">PHP-SRePS</a>
+        </div>
+      </div>
+      <div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="Home.html">Home </a></li>
+          <li class="active"><a href="Reports.html">Reports</a></li>
+          <li><a href="POS.html">POS</a></li>
+          <li><a href="Sales.html">Sales Records</a></li>
+        </ul>
+      </div>
+    </nav>
+    <h1>Reports</h1>
+    <div class="row well">
+      <div class="col-lg-6 well">
+        <h3 class="border-bottom">Filters</h3>
+        <div class="row">
+          <div class="col-lg-12">
+            <label for="Month">Month:</label>
+            <select class="form-control" id="Month" data-ng-model="Month" ng-change="report = 0">
+                <option ng-repeat="m in Months" value="{{m.name}}">{{m.name}}</option>
+              </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <label for="Week">Week: (Optional)</label>
+            <select class="form-control" id="Week" data-ng-model="Week" ng-change="report = 0">
+                <option ng-repeat="w in Weeks" value="{{w.name}}">{{w.name}}</option>
+              </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <label for="Item">Item:</label>
+            <select class="form-control" id="Item" data-ng-model="Item" ng-change="report = 0">
+                <option ng-repeat="i in Items" value="{{i.ItemName}}">{{i.ItemName}}</option>
+              </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <br>
+            <p class="text-danger">{{Error}}</p>
+            <button type="button" class="btn btn-success" ng-click="GenerateReport(Month, Week, Item)">Generate Report</button>
+            <button type="button" class="btn btn-danger" ng-click="Month = null; Week = null; Item = null">Clear</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <h3 class="border-bottom">Report</h3>
+        <div class="row" ng-show="report">
+          <div class="col-lg-12">
+            <p>Month: {{Month}}</p>
+            <p ng-show="Week != null">Week: {{Week}}</p>
+            <p>Item: {{Item}}</p>
+            <br>
+            <p ng-show="Week == null">Quantity purchased in {{Month}}: {{purchased}}</p>
+            <p ng-show="Week != null">Quantity purchased in {{Week}} of {{Month}}: {{purchased}}</p>
+            <p>Change from previous month ({{GetPrevMonth(Month)}}): {{diff | number:2}}%</p>
+            <p>Expected Stock run out at current rate: {{itemsOut | number:2}} months.</p>
+            <br>
+            <p>Total Profit: ${{profit | number:2}}</p>
+            <br>
+            <button type="button" class="btn btn-info" ng-click="">Output to CSV</button>
+          </div>
+        </div>
+        <div class="row" ng-hide="report">
+          <div class="col-lg-12 text-center">
+            <p>{{info}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/angular.min.js"></script>
+  <script src="js/ReportsController.js"></script>
+  <!--<script src="js/reportQueueController.js"></script>-->
 </body>
 
 </html>
