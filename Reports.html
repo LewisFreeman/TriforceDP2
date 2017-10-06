@@ -72,6 +72,7 @@
               <p class="text-danger">{{Error}}</p>
               <button type="button" class="btn btn-success" ng-click="GenerateReport(Month, Week, Year, Item)">Generate Report</button>
               <button type="button" class="btn btn-danger" ng-click="Month = null; Week = null; Item = null">Clear</button>
+              <button type="button" class="btn btn-info" ng-click="ExportAllCSV(Year,Month,Week)">CSV Report</button>
             </div>
           </div>
         </div>
