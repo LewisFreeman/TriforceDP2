@@ -40,6 +40,7 @@ app.controller('myCtrl', function($scope, $http) {
     $scope.purchased = 0;
     $scope.diff = 0;
     $scope.profit = 0;
+    $scope.stock = 0;
   };
 
   var currentTime = new Date()
@@ -57,6 +58,7 @@ app.controller('myCtrl', function($scope, $http) {
     $scope.Error = $scope.Validate($scope.Error, Month, Year, Item);
     if ($scope.Error == "")
     {
+      $scope.stock = $scope.GetStock(Item);
       if (Week == null)
         {
           $scope.purchased = $scope.GetMonthPurchase(Month, Year, Item);
@@ -216,7 +218,6 @@ app.controller('myCtrl', function($scope, $http) {
 
   $scope.GetStock = function (Item) {
     var index = $scope.Items.findIndex(x=>x.ItemName === Item);
-
     return $scope.Items[index].Stock;
   };
 
