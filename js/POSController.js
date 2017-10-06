@@ -1,6 +1,6 @@
 var app = angular.module('myApp', []);
 
-app.controller('myCtrl', function($scope, $http) {
+app.controller('myCtrl', function($scope, $window, $http) {
 
   //Function to pull info from the db to populate the items list
   $scope.FillItems = function () {
@@ -20,6 +20,7 @@ app.controller('myCtrl', function($scope, $http) {
   $scope.FillItems();
   $scope.Number = 1;
   $scope.Price = 0;
+  $scope.CartPanel = false;
 
   //Function called to add items to the cart
   $scope.Add = function (Item, Number, Price) {
@@ -61,6 +62,7 @@ app.controller('myCtrl', function($scope, $http) {
               }
           }
       }
+    $scope.CartPanel = false;
   };
 
   //Validation function
@@ -126,6 +128,18 @@ app.controller('myCtrl', function($scope, $http) {
   $scope.ClearAll = function () {
     $scope.Cart = [];
     $scope.error = "";
+  };
+
+  $scope.Window = function () {
+    if ($window.innerWidth <= 768)
+      {
+        return true;
+      }
+    return false;
+  };
+
+  $scope.OpenCartPanel = function () {
+    $scope.CartPanel = true;
   };
 
   //Add cart items to the db

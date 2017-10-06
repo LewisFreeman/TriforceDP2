@@ -38,6 +38,12 @@
           <h3 class="border-bottom">Filters</h3>
           <div class="row">
             <div class="col-lg-12">
+              <label for="Year">Year:</label>
+              <input class="form-control" id="Year" type="number" data-ng-model="Year" placeholder="yyyy" ng-change="report = 0">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
               <label for="Month">Month:</label>
               <select class="form-control" id="Month" data-ng-model="Month" ng-change="report = 0">
                 <option ng-repeat="m in Months" value="{{m.name}}">{{m.name}}</option>
@@ -64,7 +70,7 @@
             <div class="col-lg-12 text-center">
               <br>
               <p class="text-danger">{{Error}}</p>
-              <button type="button" class="btn btn-success" ng-click="GenerateReport(Month, Week, Item)">Generate Report</button>
+              <button type="button" class="btn btn-success" ng-click="GenerateReport(Month, Week, Year, Item)">Generate Report</button>
               <button type="button" class="btn btn-danger" ng-click="Month = null; Week = null; Item = null">Clear</button>
             </div>
           </div>
@@ -73,14 +79,16 @@
           <h3 class="border-bottom">Report</h3>
           <div class="row" ng-show="report">
             <div class="col-lg-12">
+              <p>Year: {{Year}}</p>
               <p>Month: {{Month}}</p>
               <p ng-show="Week != null">Week: {{Week}}</p>
               <p>Item: {{Item}}</p>
               <br>
-              <p ng-show="Week == null">Quantity purchased in {{Month}}: {{purchased}}</p>
-              <p ng-show="Week != null">Quantity purchased in {{Week}} of {{Month}}: {{purchased}}</p>
-                <p ng-show="Week != null">Current Stock Left in {{Item}}: <span id="stock">{{stock}}</span></p>
-              <p>Change from previous month ({{GetPrevMonth(Month)}}): {{diff | number:2}}%</p>
+              <p ng-show="Week == null">Quantity purchased in {{Month}} of {{Year}}: {{purchased}}</p>
+              <p ng-show="Week != null">Quantity purchased in {{Week}} of {{Month}} of {{Year}}: {{purchased}}</p>
+              <p ng-show="Week != null">Current Stock Left in {{Item}}: <span id="stock">{{stock}}</span></p>
+              <p ng-show="Week == null">Change from previous month ({{GetPrevMonth(Month)}}): {{diff | number:2}}%</p>
+              <p ng-show="Week != null">Change from previous week ({{GetPrevWeek(Week)}}): {{diff | number:2}}%</p>
               <br>
               <p>Total Profit: ${{profit | number:2}}</p>
               <br>
