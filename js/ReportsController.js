@@ -317,5 +317,36 @@ app.controller('myCtrl', function($scope, $http) {
       }
     return Message;
   };
+    
+  $scope.ExportCSV = function(Item,Year,Month,Week){
+    var text;
+    var MorW = Week;
+    if(!Week)
+    {
+        Week = 'N/A';
+        MorW = Month;
+    }
+    $scope.Stock   = $scope.GetStock(Item);
+    $scope.Sold    = $scope.GetMonthPurchase(MorW, Year, Item);
+    $scope.Changes = $scope.GetMonthDiff(MorW, Year, Item);
+    $scope.Profit  = $scope.MonthProfit(MorW, Year, Item);
+    text = Item + ',' + Year + ',' + Month + ',' + Week + ','
+         + $scope.Profit + ',' + $scope.Stock + ','
+         + $scope.Sold + ',' + $scope.Changes + '\n';
+    //window.alert(text);
+    filename = 'SalesReport.csv';
+    if(!text.match(/^data:text\/csv/i))
+    {
+        text = 'data:text/csv;charset=utf-8,'
+             + 'Item,Year,Month,Week,Profit,Stock,Sold,Changes\n'
+             + text;
+    }
+    var data;
+    data = encodeURI(text);
+    link = document.createElement('a');
+    link.setAttribute('href',data);
+    link.setAttribute('download',filename);
+    link.click();
+  };
 });
 

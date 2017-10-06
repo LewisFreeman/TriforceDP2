@@ -92,7 +92,8 @@
               <p>Total Profit: ${{profit | number:2}}</p>
               <p>Current Stock Left in {{Item}}: <span id="stock">{{stock}}</span></p>
               <br>
-              <button type="button" class="btn btn-info" ng-click="">Output to CSV</button>
+              <button type="button" class="btn btn-info" ng-click="ExportCSV(Item,Year,Month,Week)">Output to CSV</button>
+
             </div>
           </div>
           <div class="row" ng-hide="report">
