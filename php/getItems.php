@@ -1,5 +1,5 @@
 <?php
-  $db_con = new mysqli("localhost", "root", "root", "PHPSRePS") or die("Unable to connect!");
+  $db_con = new mysqli("localhost", "root", "", "PHPSRePS") or die("Unable to connect!");
   $table = "itemList";
   $result = $db_con->query("SELECT * FROM $table;");
   $rows = array();
