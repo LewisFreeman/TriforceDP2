@@ -1,6 +1,6 @@
 var app = angular.module('myApp', []);
 
-app.controller('myCtrl', function($scope, $http) {
+app.controller('myCtrl', function($scope, $window, $http) {
   $scope.Months = [];
   $http.get("data/Months.json")
   .then(function(response) {
@@ -43,6 +43,7 @@ app.controller('myCtrl', function($scope, $http) {
     $scope.stock = 0;
   };
 
+  $scope.FilterPanel = false;
   var currentTime = new Date()
   $scope.Year = currentTime.getFullYear()
   $scope.salesRecords = [];
@@ -77,6 +78,7 @@ app.controller('myCtrl', function($scope, $http) {
             document.getElementById('stock').style.color = 'red';
         }
       $scope.report = 1;
+      $scope.FilterPanel = false;
     }
     else
     {
@@ -317,22 +319,34 @@ app.controller('myCtrl', function($scope, $http) {
       }
     return Message;
   };
-    
+
+  $scope.Window = function () {
+    if ($window.innerWidth <= 768)
+      {
+        return true;
+      }
+    return false;
+  };
+
+  $scope.Filter = function () {
+    $scope.FilterPanel = true;
+  };
+
   $scope.ExportCSV = function(Item,Year,Month,Week){
     var text;
     var MorW = Week;
     if(!Week)
     {
-        Week = 'N/A';
-        MorW = Month;
+      Week = 'N/A';
+      MorW = Month;
     }
     $scope.Stock   = $scope.GetStock(Item);
     $scope.Sold    = $scope.GetMonthPurchase(MorW, Year, Item);
     $scope.Changes = $scope.GetMonthDiff(MorW, Year, Item).toFixed(2);
     $scope.Profit  = $scope.MonthProfit(MorW, Year, Item).toFixed(2);
     text = Item + ',' + Year + ',' + Month + ',' + Week + ','
-         + '$' + $scope.Profit + ',' + $scope.Stock + 'units' + ','
-         + $scope.Sold + 'units' + ',' + $scope.Changes + '%\n';
+         + '$' + $scope.Profit + ',' + $scope.Stock + ' units' + ','
+         + $scope.Sold + ' units' + ',' + $scope.Changes + '%\n';
     //window.alert(text);
     filename = 'SalesReport.csv';
     if(!text.match(/^data:text\/csv/i))
@@ -359,7 +373,7 @@ app.controller('myCtrl', function($scope, $http) {
         $scope.Error = "Error: Invalid Year Input";
     }
     else
-    {  
+    {
         var text = "";
         var MorW = Week;
         if(!Week)
@@ -374,7 +388,7 @@ app.controller('myCtrl', function($scope, $http) {
             $scope.Sold    = $scope.GetMonthPurchase(MorW, Year, Item);
             $scope.Changes = $scope.GetMonthDiff(MorW, Year, Item).toFixed(2);
             $scope.Profit  = $scope.MonthProfit(MorW, Year, Item).toFixed(2);
-            text += Item + ',' 
+            text += Item + ','
                  +  $scope.Profit + ',' + $scope.Stock + ','
                  +  $scope.Sold + ',' + $scope.Changes + '\n';
 

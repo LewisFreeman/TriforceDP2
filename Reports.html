@@ -34,7 +34,7 @@
       </nav>
       <h1>Reports</h1>
       <div class="row well">
-        <div class="col-lg-6 well">
+        <div class="col-lg-6 well" ng-hide="Window() && FilterPanel == false">
           <h3 class="border-bottom">Filters</h3>
           <div class="row">
             <div class="col-lg-12">
@@ -76,7 +76,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6" ng-hide="FilterPanel">
           <h3 class="border-bottom">Report</h3>
           <div class="row" ng-show="report">
             <div class="col-lg-12">
@@ -92,14 +92,21 @@
               <br>
               <p>Total Profit: ${{profit | number:2}}</p>
               <p>Current Stock Left in {{Item}}: <span id="stock">{{stock}}</span></p>
-              <br>
-              <button type="button" class="btn btn-info" ng-click="ExportCSV(Item,Year,Month,Week)">Output to CSV</button>
-
             </div>
           </div>
           <div class="row" ng-hide="report">
             <div class="col-lg-12 text-center">
               <p>{{info}}</p>
+            </div>
+          </div>
+          <div class="row" ng-show="report">
+            <div class="col-lg-12 text-center">
+              <button type="button" class="btn btn-info" ng-click="ExportCSV(Item,Year,Month,Week)">Output to CSV</button>
+            </div>
+          </div>
+          <div class="row" ng-show="Window()">
+            <div class="col-lg-12 text-center">
+              <button type="button" class="btn btn-success btn-md" ng-click="Filter()">Filter</button>
             </div>
           </div>
         </div>

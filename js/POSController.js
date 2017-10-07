@@ -149,7 +149,7 @@ app.controller('myCtrl', function($scope, $window, $http) {
     {
       $http.post(
         "php/insert.php",
-        {'cartSize':$scope.Cart.length, 'item':$scope.Cart[i].name, 'amount':$scope.Cart[i].amount, 'price':$scope.Cart[i].price }
+        {'item':$scope.Cart[i].name, 'amount':$scope.Cart[i].amount, 'price':$scope.Cart[i].price}
       )
     }
     alert("Checkout Success");
