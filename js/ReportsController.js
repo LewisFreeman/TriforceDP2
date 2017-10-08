@@ -355,19 +355,22 @@ app.controller('myCtrl', function($scope, $window, $http) {
       Week = 'N/A';
       MorW = Month;
     }
+    $scope.calulateItemRunout(Month, Item);
     $scope.Stock   = $scope.GetStock(Item);
     $scope.Sold    = $scope.GetMonthPurchase(MorW, Year, Item);
     $scope.Changes = $scope.GetMonthDiff(MorW, Year, Item).toFixed(2);
     $scope.Profit  = $scope.MonthProfit(MorW, Year, Item).toFixed(2);
+    $scope.Predict = $scope.itemsOut.toFixed(2);
     text = Item + ',' + Year + ',' + Month + ',' + Week + ','
          + '$' + $scope.Profit + ',' + $scope.Stock + ' units' + ','
-         + $scope.Sold + ' units' + ',' + $scope.Changes + '%\n';
+         + $scope.Sold + ' units' + ',' + $scope.Changes + '%' + ','
+         + $scope.Predict + ' months\n';
     //window.alert(text);
     filename = 'SalesReport.csv';
     if(!text.match(/^data:text\/csv/i))
     {
         text = 'data:text/csv;charset=utf-8,'
-             + 'Items,Year,Month,Week,Profit,Current Stock,Sold,Changes\n'
+             + 'Items,Year,Month,Week,Profit,Current Stock,Sold,Changes,Stockout Prediction\n'
              + text;
     }
     var data;
@@ -399,14 +402,15 @@ app.controller('myCtrl', function($scope, $window, $http) {
         angular.forEach($scope.Items,function(value,key)
         {
             var Item = value.ItemName;
+            $scope.calulateItemRunout(Month, Item);
             $scope.Stock   = $scope.GetStock(Item);
             $scope.Sold    = $scope.GetMonthPurchase(MorW, Year, Item);
             $scope.Changes = $scope.GetMonthDiff(MorW, Year, Item).toFixed(2);
             $scope.Profit  = $scope.MonthProfit(MorW, Year, Item).toFixed(2);
-            text += Item + ','
-                 +  $scope.Profit + ',' + $scope.Stock + ','
-                 +  $scope.Sold + ',' + $scope.Changes + '\n';
-
+            $scope.Predict = $scope.itemsOut.toFixed(2);
+            text += Item           + ',' +  $scope.Profit  + ','
+                 +  $scope.Stock   + ',' +  $scope.Sold    + ','
+                 +  $scope.Changes + ',' +  $scope.Predict + '\n';
             filename = 'SalesReport.csv';
             if(!text.match(/^data:text\/csv/i))
             {
@@ -415,7 +419,7 @@ app.controller('myCtrl', function($scope, $window, $http) {
                      + 'Year : ' + Year + '\n'
                      + 'Month: ' + Month + '\n'
                      + 'Week : ' + Week + '\n'
-                     + 'Items,Profit ($),Current Stock (units),Sold (units),Changes (%)\n'
+                     + 'Items,Profit ($),Current Stock (units),Sold (units),Changes (%),Stockout Prediction (months)\n'
                      + text;
             }
         });
