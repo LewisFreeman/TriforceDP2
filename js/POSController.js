@@ -130,6 +130,7 @@ app.controller('myCtrl', function($scope, $window, $http) {
     $scope.error = "";
   };
 
+  //Check the window size, return true if mobile sized
   $scope.Window = function () {
     if ($window.innerWidth <= 768)
       {
@@ -138,6 +139,7 @@ app.controller('myCtrl', function($scope, $window, $http) {
     return false;
   };
 
+  //Switch the active panel, only callable by buttons shown to mobile users
   $scope.OpenCartPanel = function () {
     $scope.CartPanel = true;
   };
