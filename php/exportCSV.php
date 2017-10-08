@@ -22,9 +22,3 @@ else
     }
 }
 ?>
-
-<!--
-<form method='post' action='php/exportCSV.php'>
-    <input type="submit" class="btn btn-primary" name="exportCSV" value="Export to CSV"/>
-</form>
--->

@@ -36,7 +36,7 @@
     </nav>
     <h1>Reports</h1>
     <div class="row well">
-      <div class="col-lg-6 well">
+      <div class="col-lg-6 well" ng-hide="Window() && FilterPanel == false">
         <h3 class="border-bottom">Filters</h3>
         <div class="row">
           <div class="col-lg-12">
@@ -74,10 +74,11 @@
             <p class="text-danger">{{Error}}</p>
             <button type="button" class="btn btn-success" ng-click="GenerateReport(Month, Week, Year, Item)">Generate Report</button>
             <button type="button" class="btn btn-danger" ng-click="Month = null; Week = null; Item = null">Clear</button>
+            <button type="button" class="btn btn-info" ng-click="ExportAllCSV(Year,Month,Week)">CSV Report</button>
           </div>
         </div>
       </div>
-      <div class="col-lg-6">
+      <div class="col-lg-6" ng-hide="FilterPanel">
         <h3 class="border-bottom">Report</h3>
         <div class="row" ng-show="report">
           <div class="col-lg-12">
@@ -85,9 +86,9 @@
             <p>Month: {{Month}}</p>
             <p ng-show="Week != null">Week: {{Week}}</p>
             <p>Item: {{Item}}</p>
-            <br>
             <p>Expected Stock run out at current rate: {{itemsOut | number:2}} months.</p>
             <br/>
+            <br>
             <p ng-show="Week == null">Quantity purchased in {{Month}} of {{Year}}: {{purchased}}</p>
             <p ng-show="Week != null">Quantity purchased in {{Week}} of {{Month}} of {{Year}}: {{purchased}}</p>
             <p ng-show="Week == null">Change from previous month ({{GetPrevMonth(Month)}}): {{diff | number:2}}%</p>
@@ -95,13 +96,21 @@
             <br>
             <p>Total Profit: ${{profit | number:2}}</p>
             <p>Current Stock Left in {{Item}}: <span id="stock">{{stock}}</span></p>
-            <br>
-            <button type="button" class="btn btn-info" ng-click="">Output to CSV</button>
           </div>
         </div>
         <div class="row" ng-hide="report">
           <div class="col-lg-12 text-center">
             <p>{{info}}</p>
+          </div>
+        </div>
+        <div class="row" ng-show="report">
+          <div class="col-lg-12 text-center">
+            <button type="button" class="btn btn-info" ng-click="ExportCSV(Item,Year,Month,Week)">Output to CSV</button>
+          </div>
+        </div>
+        <div class="row" ng-show="Window()">
+          <div class="col-lg-12 text-center">
+            <button type="button" class="btn btn-success btn-md" ng-click="Filter()">Filter</button>
           </div>
         </div>
       </div>

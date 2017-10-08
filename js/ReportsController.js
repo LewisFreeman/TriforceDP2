@@ -1,7 +1,7 @@
 var app = angular.module('myApp', []);
 
-app.controller('myCtrl', function ($scope, $http) {
 
+app.controller('myCtrl', function($scope, $window, $http) {
   $scope.Months = [];
   $http.get("data/Months.json")
     .then(function (response) {
@@ -44,6 +44,7 @@ app.controller('myCtrl', function ($scope, $http) {
     $scope.stock = 0;
   };
 
+  $scope.FilterPanel = false;
   var currentTime = new Date();
   $scope.Year = currentTime.getFullYear();
   $scope.salesRecords = [];
@@ -281,6 +282,100 @@ app.controller('myCtrl', function ($scope, $http) {
       Message += "You must select a valid year";
     }
     return Message;
+  };
+
+  $scope.Window = function () {
+    if ($window.innerWidth <= 768)
+      {
+        return true;
+      }
+    return false;
+  };
+
+  $scope.Filter = function () {
+    $scope.FilterPanel = true;
+  };
+
+  $scope.ExportCSV = function(Item,Year,Month,Week){
+    var text;
+    var MorW = Week;
+    if(!Week)
+    {
+      Week = 'N/A';
+      MorW = Month;
+    }
+    $scope.Stock   = $scope.GetStock(Item);
+    $scope.Sold    = $scope.GetMonthPurchase(MorW, Year, Item);
+    $scope.Changes = $scope.GetMonthDiff(MorW, Year, Item).toFixed(2);
+    $scope.Profit  = $scope.MonthProfit(MorW, Year, Item).toFixed(2);
+    text = Item + ',' + Year + ',' + Month + ',' + Week + ','
+         + '$' + $scope.Profit + ',' + $scope.Stock + ' units' + ','
+         + $scope.Sold + ' units' + ',' + $scope.Changes + '%\n';
+    //window.alert(text);
+    filename = 'SalesReport.csv';
+    if(!text.match(/^data:text\/csv/i))
+    {
+        text = 'data:text/csv;charset=utf-8,'
+             + 'Items,Year,Month,Week,Profit,Current Stock,Sold,Changes\n'
+             + text;
+    }
+    var data;
+    data = encodeURI(text);
+    link = document.createElement('a');
+    link.setAttribute('href',data);
+    link.setAttribute('download',filename);
+    link.click();
+  };
+
+  $scope.ExportAllCSV = function(Year,Month,Week){
+    if (Month == null)
+    {
+        $scope.Error = "Error: You must select a month";
+    }
+    else if((Year < 2000)||(Year > currentTime.getFullYear()))
+    {
+        $scope.Error = "Error: Invalid Year Input";
+    }
+    else
+    {
+        var text = "";
+        var MorW = Week;
+        if(!Week)
+        {
+            Week = 'N/A';
+            MorW = Month;
+        }
+        angular.forEach($scope.Items,function(value,key)
+        {
+            var Item = value.ItemName;
+            $scope.Stock   = $scope.GetStock(Item);
+            $scope.Sold    = $scope.GetMonthPurchase(MorW, Year, Item);
+            $scope.Changes = $scope.GetMonthDiff(MorW, Year, Item).toFixed(2);
+            $scope.Profit  = $scope.MonthProfit(MorW, Year, Item).toFixed(2);
+            text += Item + ','
+                 +  $scope.Profit + ',' + $scope.Stock + ','
+                 +  $scope.Sold + ',' + $scope.Changes + '\n';
+
+            filename = 'SalesReport.csv';
+            if(!text.match(/^data:text\/csv/i))
+            {
+                text = 'data:text/csv;charset=utf-8,'
+                     + 'PHP-SRePS Report\n'
+                     + 'Year : ' + Year + '\n'
+                     + 'Month: ' + Month + '\n'
+                     + 'Week : ' + Week + '\n'
+                     + 'Items,Profit ($),Current Stock (units),Sold (units),Changes (%)\n'
+                     + text;
+            }
+        });
+        //window.alert(text);
+        var data;
+        data = encodeURI(text);
+        link = document.createElement('a');
+        link.setAttribute('href',data);
+        link.setAttribute('download',filename);
+        link.click();
+    }
   };
 
   //calculates the estimated point stock will run out based on 
