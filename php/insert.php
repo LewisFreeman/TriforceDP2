@@ -9,6 +9,7 @@
 	} else {
 		$date = date("Y-m-d"); //gets current date
 		$sql_table = "Records";
+        $sql_stock = "itemlist";
 
         //obtains week numer
 		$week = "select WEEKOFYEAR('$date')";
@@ -28,11 +29,13 @@
 		$queryWeekly = "insert into $sql_week values('$weekID','$data->item','$data->amount','$data->price')";
         //makes sure that the same week id and item name data are stored in a single row
 		$queryValidate = "select StockSold from $sql_week where WeekID='$weekID' and ItemName='$data->item'";
-	
+        $queryStock = "UPDATE $sql_stock set Stock=Stock-'$data->amount' where ItemName='$data->item'";
+        
         //calling validate and insert query
 		$resultValidate = mysqli_query($conn, $queryValidate);
 		$result = mysqli_query($conn, $query);
-
+        $resultStock = mysqli_query($conn, $queryStock);
+        
 		if(mysqli_num_rows($resultValidate) != 1)
 		{
             //if there is no existing row for week and item name
