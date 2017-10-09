@@ -452,31 +452,22 @@ app.controller('myCtrl', function($scope, $window, $http) {
   //calculates the estimated point stock will run out based on
   //  the three month average num purchases
   $scope.calulateItemRunout = function (month, item) {
-    var monthNames = ["January", "February", "March", "April", "May", "June",
-              "July", "August", "September", "October", "November", "December"];
-
-    var currentDate = new Date();
-
-    var currentMonth = currentDate.getMonth();
+    var currentMonth = currentTime.getMonth();
     var currentStock = $scope.GetStock(item);
     var monthsToCount = 3;
-
     //total sales over period
     var totalOverTimePeriod = 0;
     for (var i = currentMonth; i > (currentMonth - monthsToCount); i--) {
-      totalOverTimePeriod += $scope.GetMonthPurchase(monthNames[i], $scope.Year, item);
+      totalOverTimePeriod += $scope.GetMonthPurchase($scope.Months[i].name, $scope.Year, item);
     }
-
     //item count does not deplete, but if more purchased made than item stock...
     if (currentStock <= 0 || (currentStock - $scope.purchased) <= 0) {
       $scope.itemsOut = "Out of Stock!";
       return;
     }
-
     //otherwise if no records over period or months not set
     if (monthsToCount === 0 || totalOverTimePeriod === 0)
       $scope.itemsOut = "Unknown";
-
     //else estiamte
     $scope.itemsOut = (currentStock / (totalOverTimePeriod / monthsToCount));
   };
