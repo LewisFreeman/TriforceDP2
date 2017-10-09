@@ -49,7 +49,7 @@
             <div class="text-center" ng-show="Cart.length == 0">
               <p>Nothing here yet</p>
             </div>
-            
+
             <!-- Add a row foreach object in the cart array -->
             <!-- Display the name, amount and price of each -->
             <div class="row" ng-repeat="c in Cart" ng-hide="Window()">
@@ -141,16 +141,17 @@
         </div>
       </div>
     </div>
+    
     <div class="row row well" ng-hide="Window()">
-      <div class="col-sm-4 col-lg-4 text-center">
+      <div class="col-xs-4 col-sm-4 col-lg-4 text-center">
         <!-- Outputs the total amount by calling the GetTotal function in the controller -->
         <p class="total">Total Amount = ${{GetTotal() | number:2}}</p>
       </div>
-      <div class="col-sm-4 col-lg-4 text-center border-right border-left">
+      <div class="col-xs-4 col-sm-4 col-lg-4 text-center border-right border-left">
         <!-- Clear button will clear all fields and use the ClearAll function in the controller to empty the cart-->
         <button type="button" class="btn btn-danger btn-lg" ng-click="Item = null; Number = null; ClearAll()">Clear All</button>
       </div>
-      <div class="col-sm-4 col-lg-4 text-center">
+      <div class="col-xs-4 col-sm-4 col-lg-4 text-center">
         <!-- Checkout button will add the cart items to the database -->
         <button type="button" class="btn btn-success btn-lg" ng-click="Checkout()">Checkout</button>
       </div>
@@ -162,6 +163,7 @@
         <button type="button" class="btn btn-success" ng-click="Checkout()">Checkout</button>
       </div>
     </div>
+    
   </div>
   <!-- Scripts used -->
   <script src="js/jquery.min.js"></script>
