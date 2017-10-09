@@ -1,175 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>PHP-SRePS - Sales Records System</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link href="css/styles.css" rel="stylesheet" />
-  </head>
-  <body data-ng-app="PHPSRePS" data-ng-controller="salesRecordsController">
-    <div class="container">
-      <!-- Nav bar elements -->
-      <nav class="navbar navbar-default">
-        <div class="contianer navbar-container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>PHP-SRePS - Sales Records System</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link href="css/styles.css" rel="stylesheet" />
+</head>
+
+<body data-ng-app="PHPSRePS" data-ng-controller="salesRecordsController">
+  <div class="container">
+    <!-- Nav bar elements -->
+    <nav class="navbar navbar-default">
+      <div class="contianer navbar-container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
               <span class="sr-only">Toggle Navigation</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <!-- Banner item (may replace with logo at later point) -->
-            <a class="navbar-brand" href="#">PHP-SRePS</a>
-          </div>
+          <!-- Banner item (may replace with logo at later point) -->
+          <a class="navbar-brand" href="#">PHP-SRePS</a>
         </div>
-        <div class="collapse navbar-collapse" id="navbar-collapse-1">
-          <!-- Nav bar items list -->
-          <ul class="nav navbar-nav">
-            <li><a href="Home.html">Home </a></li>
-            <li><a href="Reports.html">Reports</a></li>
-            <li><a href="POS.html">POS</a></li>
-            <li class="active"><a href="Sales.html">Sales Records</a></li>
-          </ul>
-        </div>
-      </nav>
-      <div class="container">
-        <!-- Main interface -->
-        <div class="row ">
-          <!-- On mobile display only if edit is true -->
-          <div class="col-md-6 well" ng-hide="Window() && Edit == false">
-            <div class="row">
-              <div class="col-md-12">
-                <h2 class="border-bottom">Edit Sales Records</h2>
-              </div>
+      </div>
+      <div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <!-- Nav bar items list -->
+        <ul class="nav navbar-nav">
+          <li><a href="Home.html">Home </a></li>
+          <li><a href="Reports.html">Reports</a></li>
+          <li><a href="POS.html">POS</a></li>
+          <li class="active"><a href="Sales.html">Sales Records</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <!-- Main interface -->
+      <div class="row ">
+        <!-- On mobile display only if edit is true -->
+        <div class="col-md-6 well" ng-hide="Window() && Edit == false">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="border-bottom">Edit Sales Records</h2>
             </div>
-            <div class="row">
-              <div class="col-md-12">
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="row">
-                      <div class="col-md-12">
-                        <label for="IdSearch">Transaction ID</label>
-                      </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label for="IdSearch">Transaction ID</label>
                     </div>
-                    <!-- Input element for transcation ID, autofills other inputs from db -->
-                    <div class="row">
-                      <div class="col-md-12">
-                        <input id="IdSearch" type="number" data-ng-model="Number">
-                        <button class="btn btn-primary" ng-click="Search(Number)">Search</button>
-                        <p class="text-danger">{{Error}}</p>
-                      </div>
+                  </div>
+                  <!-- Input element for transcation ID, autofills other inputs from db -->
+                  <div class="row">
+                    <div class="col-md-12">
+                      <input id="IdSearch" type="number" data-ng-model="Number">
+                      <button class="btn btn-primary" ng-click="Search(Number)">Search</button>
+                      <p class="text-danger">{{Error}}</p>
                     </div>
-                    <br>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <label for="Item">Item Name</label>
-                      </div>
-                      <div class="col-md-6">
-                        <label for="Quantity">Quantity</label>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <select id="Item" class="select-wide" data-ng-model="Name">
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="Item">Item Name</label>
+                      <select id="Item" class="select-wide" data-ng-model="Name">
                           <option ng-repeat="i in Items"value="{{i.ItemName}}">{{i.ItemName}}</option>
                         </select>
-                      </div>
-                      <div class="col-md-6">
-                        <input id="Quantity" type="number" data-ng-model="Quantity">
-                      </div>
                     </div>
-                    <br>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <label for="Date">Date</label>
-                      </div>
-                      <div class="col-md-6">
-                        <label for="Price">Price</label>
-                      </div>
+
+                    <div class="col-md-6">
+                      <label for="Quantity">Quantity</label>
+                      <input id="Quantity" type="number" data-ng-model="Quantity">
                     </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <input id="Date" type="text" data-ng-model="Date" placeholder="yyyy-mm-dd">
-                      </div>
-                      <div class="col-md-6">
-                        <span>$</span><input id="Price" type="number" data-ng-model="Price">
-                      </div>
+                  </div>
+
+                  <br>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="Date">Date</label>
+                      <input id="Date" type="text" data-ng-model="Date" placeholder="yyyy-mm-dd">
                     </div>
-                    <br>
-                    <div class="row">
-                      <div class="col-md-12 text-center">
-                        <!-- Error display from validation -->
-                        <p class="text-danger">{{UpdateError}}</p>
-                        <!-- Update button, calls uddate function in controller -->
-                        <button class="btn btn-success btn-wide" ng-click="Update(Number, Name, Quantity, Date, Price)">Update</button>
-                      </div>
+                    <div class="col-md-6">
+                      <label for="Price">Price</label>
+                      <span>$</span><input id="Price" type="number" data-ng-model="Price">
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-md-12 text-center">
+                      <!-- Error display from validation -->
+                      <p class="text-danger">{{UpdateError}}</p>
+                      <!-- Update button, calls uddate function in controller -->
+                      <button class="btn btn-success btn-wide" ng-click="Update(Number, Name, Quantity, Date, Price)">Update</button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-md-6 well" ng-hide="Edit">
-            <div class="row">
-              <div class="col-md-12">
-                <h2 class="border-bottom">Sales Record View</h2>
-              </div>
+        </div>
+        <div class="col-md-6 well" ng-hide="Edit">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="border-bottom">Sales Record View</h2>
             </div>
-            <div class="row">
-              <div class="col-md-12 pre-scrollable">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Transaction ID</th>
-                      <th>Item Name</th>
-                      <th>Quantity</th>
-                      <th>Date</th>
-                      <th>Price</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr data-ng-repeat="row in salesRecords | filter:search :exactMatch | orderBy:sortAttri:sortReverse" >
-                      <td>{{row.TransactionID}}</td>
-                      <td>{{row.ItemName}}</td>
-                      <td>{{row.Quantity}}</td>
-                      <td>{{row.Date}}</td>
-                      <td>${{row.Price | number:2}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <br>
+          </div>
+          <div class="row">
+            <div class="col-md-12 pre-scrollable">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Transaction ID</th>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Date</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-ng-repeat="row in salesRecords | filter:search :exactMatch | orderBy:sortAttri:sortReverse">
+                    <td>{{row.TransactionID}}</td>
+                    <td>{{row.ItemName}}</td>
+                    <td>{{row.Quantity}}</td>
+                    <td>{{row.Date}}</td>
+                    <td>${{row.Price | number:2}}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
             <br>
-            <div class="row">
-              <div class="col-md-12 text-center">
-                <form>
-                  <p>
-                    <input type="text" data-ng-model="search.ItemName" placeholder="Search Item Name"/>
-                    <input type="text" data-ng-model="search.Date" placeholder="Search Date"/>
-                  </p>
-                </form>
-              </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <form>
+                <p>
+                  <input type="text" data-ng-model="search.ItemName" placeholder="Search Item Name" />
+                  <input type="text" data-ng-model="search.Date" placeholder="Search Date" />
+                </p>
+              </form>
             </div>
-            <div class="row text-center">
-              <div class="col-md-12">
-                <button class="btn btn-primary" ng-click="sortBy('ItemName')">Sort by Name</button>
-                <button class="btn btn-primary" ng-click="sortBy('Quantity')">Sort by Quantity</button>
-                <button class="btn btn-primary" ng-click="sortBy('Date')">Sort by Date</button>
-                <button class="btn btn-primary" ng-click="sortBy('Price')">Sort by Price</button>
-                <button class="btn btn-success" ng-click="SetEdit()" ng-show="Window() && Edit == false">Edit Records</button>
-              </div>
+          </div>
+          <div class="row text-center">
+            
+            <div class="col-xs-12">
+              <button class="btn btn-primary" ng-click="sortBy('ItemName')">Sort by Name</button>
+              <button class="btn btn-primary" ng-click="sortBy('Quantity')">Sort by Quantity</button>
+              <button class="btn btn-primary" ng-click="sortBy('Date')">Sort by Date</button>
+              <button class="btn btn-primary" ng-click="sortBy('Price')">Sort by Price</button>
+
+              <button class="btn btn-success" ng-click="SetEdit()" ng-show="Window() && Edit == false">Edit Records</button>
             </div>
+
           </div>
         </div>
       </div>
     </div>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/angular.min.js"></script>
-    <script src="js/SalesController.js"></script>
-  </body>
+  </div>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/angular.min.js"></script>
+  <script src="js/SalesController.js"></script>
+</body>
+
 </html>
