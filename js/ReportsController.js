@@ -349,24 +349,31 @@ app.controller('myCtrl', function($scope, $window, $http) {
 
   $scope.ExportCSV = function(Item,Year,Month,Week){
     var text;
-    var MorW = Week;
+    
     if(!Week)
     {
       Week = 'N/A';
-      MorW = Month;
+      $scope.Sold    = $scope.GetMonthPurchase(Month, Year, Item);
+      $scope.Changes = $scope.GetMonthDiff(Month, Year, Item).toFixed(2);
+      $scope.Profit  = $scope.MonthProfit(Month, Year, Item).toFixed(2);
+      filename = Month + ' - MonthlyReport.csv';
+    }
+    else
+    {
+      $scope.Sold    = $scope.GetWeekPurchase(Month, Week, Year, Item);
+      $scope.Changes = $scope.GetWeekDiff(Month, Week, Year, Item).toFixed(2);
+      $scope.Profit  = $scope.WeekProfit(Month, Week, Year, Item).toFixed(2);
+      filename = Month + ' ' + Week + ' - WeeklyReport.csv';
     }
     $scope.calulateItemRunout(Month, Item);
     $scope.Stock   = $scope.GetStock(Item);
-    $scope.Sold    = $scope.GetMonthPurchase(MorW, Year, Item);
-    $scope.Changes = $scope.GetMonthDiff(MorW, Year, Item).toFixed(2);
-    $scope.Profit  = $scope.MonthProfit(MorW, Year, Item).toFixed(2);
+
     $scope.Predict = $scope.itemsOut.toFixed(2);
     text = Item + ',' + Year + ',' + Month + ',' + Week + ','
          + '$' + $scope.Profit + ',' + $scope.Stock + ' units' + ','
          + $scope.Sold + ' units' + ',' + $scope.Changes + '%' + ','
          + $scope.Predict + ' months\n';
-    //window.alert(text);
-    filename = 'SalesReport.csv';
+    filename = 'ItemSalesReport.csv';
     if(!text.match(/^data:text\/csv/i))
     {
         text = 'data:text/csv;charset=utf-8,'
@@ -393,25 +400,34 @@ app.controller('myCtrl', function($scope, $window, $http) {
     else
     {
         var text = "";
-        var MorW = Week;
         if(!Week)
         {
             Week = 'N/A';
-            MorW = Month;
         }
         angular.forEach($scope.Items,function(value,key)
         {
             var Item = value.ItemName;
             $scope.calulateItemRunout(Month, Item);
             $scope.Stock   = $scope.GetStock(Item);
-            $scope.Sold    = $scope.GetMonthPurchase(MorW, Year, Item);
-            $scope.Changes = $scope.GetMonthDiff(MorW, Year, Item).toFixed(2);
-            $scope.Profit  = $scope.MonthProfit(MorW, Year, Item).toFixed(2);
+            if(Week=='N/A')
+            {              
+                $scope.Sold    = $scope.GetMonthPurchase(Month, Year, Item);
+                $scope.Changes = $scope.GetMonthDiff(Month, Year, Item).toFixed(2);
+                $scope.Profit  = $scope.MonthProfit(Month, Year, Item).toFixed(2);
+                filename = Month + ' - MonthlyReport.csv';
+            }
+            else
+            {
+                $scope.Sold    = $scope.GetWeekPurchase(Month, Week, Year, Item);
+                $scope.Changes = $scope.GetWeekDiff(Month, Week, Year, Item).toFixed(2);
+                $scope.Profit  = $scope.WeekProfit(Month, Week, Year, Item).toFixed(2);  
+                filename = Month + ' ' + Week + ' - WeeklyReport.csv';
+            }     
             $scope.Predict = $scope.itemsOut.toFixed(2);
             text += Item           + ',' +  $scope.Profit  + ','
                  +  $scope.Stock   + ',' +  $scope.Sold    + ','
                  +  $scope.Changes + ',' +  $scope.Predict + '\n';
-            filename = 'SalesReport.csv';
+            
             if(!text.match(/^data:text\/csv/i))
             {
                 text = 'data:text/csv;charset=utf-8,'
