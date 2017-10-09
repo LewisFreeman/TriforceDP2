@@ -1,5 +1,5 @@
  <?php
-  $conn = mysqli_connect("localhost", "root", "", "PHPSRePS");
+  $conn = mysqli_connect("localhost", "root", "root", "PHPSRePS");
   $data = json_decode(file_get_contents("php://input"));
   if(!$conn)
     {
