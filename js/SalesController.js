@@ -2,6 +2,7 @@ console.log("sales controller loaded");
 var myApp = angular.module('PHPSRePS', []);
 myApp.controller('salesRecordsController', function ($scope, $window, $http)
 {
+  //Get the items from the db and fill the items array
   $scope.FillItems = function () {
     $http({
       method: 'GET',
@@ -13,6 +14,7 @@ myApp.controller('salesRecordsController', function ($scope, $window, $http)
     });
   }
 
+  //Get the records from the db and fill the array
   $scope.FillTable = function () {
     $http({
       method: 'GET',
@@ -24,6 +26,7 @@ myApp.controller('salesRecordsController', function ($scope, $window, $http)
     });
   }
 
+  //Initialize values
   $scope.Items = [];
   $scope.FillItems();
   $scope.salesRecords = [];
@@ -32,13 +35,16 @@ myApp.controller('salesRecordsController', function ($scope, $window, $http)
   $scope.sortReverse = false;
   $scope.Edit = false;
 
+  //Sorting function
   $scope.sortBy = function(btn)
   {
     $scope.sortReverse=($scope.sortAttri==btn)?!$scope.sortReverse:false;
     $scope.sortAttri=btn;
   }
 
+  //Autofills the boxes in the edit sales record interface
   $scope.Search = function (ID) {
+    //Validates input
     $scope.Error = "";
     var index = $scope.salesRecords.findIndex(x=>x.TransactionID === ID);
     if (index == -1)
@@ -54,7 +60,9 @@ myApp.controller('salesRecordsController', function ($scope, $window, $http)
       }
   };
 
+  //Calls php script to update the db with inputs
   $scope.Update = function (Number, Name, Quantity, Date, Price) {
+    //Validation
     $scope.UpdateError = "";
     $scope.UpdateError = $scope.Validate($scope.UpdateError, Date, Price, Quantity);
     if ($scope.UpdateError == "")
@@ -69,10 +77,12 @@ myApp.controller('salesRecordsController', function ($scope, $window, $http)
       }
     else
       {
+        //If validation fails, output error
         $scope.UpdateError = "Error: " + $scope.UpdateError;
       }
   };
 
+  //Check the window size, if return true if mobile sized
   $scope.Window = function () {
     if ($window.innerWidth <= 768)
       {
@@ -81,10 +91,12 @@ myApp.controller('salesRecordsController', function ($scope, $window, $http)
     return false;
   };
 
+  //Switch the active panel, only callable by buttons shown to mobile users
   $scope.SetEdit = function () {
     $scope.Edit = true;
   };
 
+  //Validation function
   $scope.Validate = function (Message, Date, Price, Quantity) {
     if (!(/(\d){4}(-(\d){2}){2}/.test(Date)))
       {

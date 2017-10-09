@@ -1,125 +1,140 @@
 <!DOCTYPE html>
 <html lang="en" data-ng-app="myApp">
-
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>PHP-SRePS - Sales Reports</title>
-  <link rel="stylesheet" href="css/bootstrap.min.css" />
-  <!-- Custom stylesheet -->
-  <link href="css/styles.css" rel="stylesheet" />
-</head>
-
-<body data-ng-app="PHPSRePS" data-ng-controller="myCtrl">
-  <div class="container">
-    <nav class="navbar navbar-default">
-      <div class="contianer navbar-container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
-              <span class="sr-only">Toggle Navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-          <a class="navbar-brand" href="#">PHP-SRePS</a>
-        </div>
-      </div>
-      <div class="collapse navbar-collapse" id="navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li><a href="Home.html">Home </a></li>
-          <li class="active"><a href="Reports.html">Reports</a></li>
-          <li><a href="POS.html">POS</a></li>
-          <li><a href="Sales.html">Sales Records</a></li>
-        </ul>
-      </div>
-    </nav>
-    <h1>Reports</h1>
-    <div class="row well">
-      <div class="col-lg-6 well" ng-hide="Window() && FilterPanel == false">
-        <h3 class="border-bottom">Filters</h3>
-        <div class="row">
-          <div class="col-lg-12">
-            <label for="Year">Year:</label>
-            <input class="form-control" id="Year" type="number" data-ng-model="Year" placeholder="yyyy" ng-change="report = 0">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>PHP-SRePS - Sales Reports</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <!-- Custom stylesheet -->
+    <link href="css/styles.css" rel="stylesheet" />
+  </head>
+  <body data-ng-app="PHPSRePS" data-ng-controller="myCtrl">
+    <div class="container">
+      <!-- Nav bar elements -->
+      <nav class="navbar navbar-default">
+        <div class="contianer navbar-container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            <!-- Banner item (may replace with logo at later point) -->
+            <a class="navbar-brand" href="#">PHP-SRePS</a>
           </div>
         </div>
-        <div class="row">
-          <div class="col-lg-12">
-            <label for="Month">Month:</label>
-            <select class="form-control" id="Month" data-ng-model="Month" ng-change="report = 0">
-                <option ng-repeat="m in Months" value="{{m.name}}">{{m.name}}</option>
-              </select>
+        <div class="collapse navbar-collapse" id="navbar-collapse-1">
+          <!-- Nav bar items list -->
+          <ul class="nav navbar-nav">
+            <li><a href="Home.html">Home </a></li>
+            <li class="active"><a href="Reports.html">Reports</a></li>
+            <li><a href="POS.html">POS</a></li>
+            <li><a href="Sales.html">Sales Records</a></li>
+          </ul>
+        </div>
+      </nav>
+      <!-- Page title -->
+      <h1>Reports</h1>
+      <!-- Main interface -->
+      <div class="row well">
+        <!-- Filters interface, on mobile display only is filter panel is true -->
+        <div class="col-lg-6 well" ng-hide="Window() && FilterPanel == false">
+          <h3 class="border-bottom">Filters</h3>
+          <div class="row">
+            <div class="col-lg-12">
+              <!-- Year input, autofilled and validated in controller-->
+              <label for="Year">Year:</label>
+              <input class="form-control" id="Year" type="number" data-ng-model="Year" placeholder="yyyy" ng-change="report = 0">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <!-- Month input, select from file -->
+              <label for="Month">Month:</label>
+              <select class="form-control" id="Month" data-ng-model="Month" ng-change="report = 0">
+                  <option ng-repeat="m in Months" value="{{m.name}}">{{m.name}}</option>
+                </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <!-- Week input, select from file -->
+              <label for="Week">Week: (Optional)</label>
+              <select class="form-control" id="Week" data-ng-model="Week" ng-change="report = 0">
+                  <option ng-repeat="w in Weeks" value="{{w.name}}">{{w.name}}</option>
+                </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <!-- Item input, select from db -->
+              <label for="Item">Item:</label>
+              <select class="form-control" id="Item" data-ng-model="Item" ng-change="report = 0">
+                  <option ng-repeat="i in Items" value="{{i.ItemName}}">{{i.ItemName}}</option>
+                </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 text-center">
+              <br>
+              <!-- Error message display -->
+              <p class="text-danger">{{Error}}</p>
+              <!-- Buttons is call functions in controller -->
+              <button type="button" class="btn btn-success" ng-click="GenerateReport(Month, Week, Year, Item)">Generate Report</button>
+              <button type="button" class="btn btn-danger" ng-click="Month = null; Week = null; Item = null">Clear</button>
+              <button type="button" class="btn btn-info" ng-click="ExportAllCSV(Year,Month,Week)">CSV Report</button>
+            </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-lg-12">
-            <label for="Week">Week: (Optional)</label>
-            <select class="form-control" id="Week" data-ng-model="Week" ng-change="report = 0">
-                <option ng-repeat="w in Weeks" value="{{w.name}}">{{w.name}}</option>
-              </select>
+        <!-- Interface for report viewing, on mobile show only when filter panel is false-->
+        <div class="col-lg-6" ng-hide="FilterPanel">
+          <h3 class="border-bottom">Report</h3>
+          <!-- Show only if report is true, set by filters -->
+          <div class="row" ng-show="report">
+             <!-- Infomation display -->
+            <div class="col-lg-12">
+              <p>Year: {{Year}}</p>
+              <p>Month: {{Month}}</p>
+              <p ng-show="Week != null">Week: {{Week}}</p>
+              <p>Item: {{Item}}</p>
+              <p>Current Stock Left in {{Item}}: <span id="stock">{{stock}}</span></p>
+              <p>Expected Stock run out at current rate: {{itemsOut | number:2}} months.</p>
+              <br>
+              <p ng-show="Week == null">Quantity purchased in {{Month}} of {{Year}}: {{purchased}}</p>
+              <p ng-show="Week != null">Quantity purchased in {{Week}} of {{Month}} of {{Year}}: {{purchased}}</p>
+              <p ng-show="Week == null">Change from previous month ({{GetPrevMonth(Month)}}): {{diff | number:2}}%</p>
+              <p ng-show="Week != null">Change from previous week ({{GetPrevWeek(Week)}}): {{diff | number:2}}%</p>
+              <br>
+              <p>Total Profit: ${{profit | number:2}}</p>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-12">
-            <label for="Item">Item:</label>
-            <select class="form-control" id="Item" data-ng-model="Item" ng-change="report = 0">
-                <option ng-repeat="i in Items" value="{{i.ItemName}}">{{i.ItemName}}</option>
-              </select>
+          <!-- If report is not true, display info -->
+          <div class="row" ng-hide="report">
+            <div class="col-lg-12 text-center">
+              <p>{{info}}</p>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-12 text-center">
-            <br>
-            <p class="text-danger">{{Error}}</p>
-            <button type="button" class="btn btn-success" ng-click="GenerateReport(Month, Week, Year, Item)">Generate Report</button>
-            <button type="button" class="btn btn-danger" ng-click="Month = null; Week = null; Item = null">Clear</button>
-            <button type="button" class="btn btn-info" ng-click="ExportAllCSV(Year,Month,Week)">CSV Report</button>
+          <!-- If report is true, show the export to CSV button -->
+          <div class="row" ng-show="report">
+            <div class="col-lg-12 text-center">
+              <button type="button" class="btn btn-info" ng-click="ExportCSV(Item,Year,Month,Week)">Output to CSV</button>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="col-lg-6" ng-hide="FilterPanel">
-        <h3 class="border-bottom">Report</h3>
-        <div class="row" ng-show="report">
-          <div class="col-lg-12">
-            <p>Year: {{Year}}</p>
-            <p>Month: {{Month}}</p>
-            <p ng-show="Week != null">Week: {{Week}}</p>
-            <p>Item: {{Item}}</p>
-            <p>Expected Stock run out at current rate: {{itemsOut | number:2}} months.</p>
-            <br/>
-            <br>
-            <p ng-show="Week == null">Quantity purchased in {{Month}} of {{Year}}: {{purchased}}</p>
-            <p ng-show="Week != null">Quantity purchased in {{Week}} of {{Month}} of {{Year}}: {{purchased}}</p>
-            <p ng-show="Week == null">Change from previous month ({{GetPrevMonth(Month)}}): {{diff | number:2}}%</p>
-            <p ng-show="Week != null">Change from previous week ({{GetPrevWeek(Week)}}): {{diff | number:2}}%</p>
-            <br>
-            <p>Total Profit: ${{profit | number:2}}</p>
-            <p>Current Stock Left in {{Item}}: <span id="stock">{{stock}}</span></p>
-          </div>
-        </div>
-        <div class="row" ng-hide="report">
-          <div class="col-lg-12 text-center">
-            <p>{{info}}</p>
-          </div>
-        </div>
-        <div class="row" ng-show="report">
-          <div class="col-lg-12 text-center">
-            <button type="button" class="btn btn-info" ng-click="ExportCSV(Item,Year,Month,Week)">Output to CSV</button>
-          </div>
-        </div>
-        <div class="row" ng-show="Window()">
-          <div class="col-lg-12 text-center">
-            <button type="button" class="btn btn-success btn-md" ng-click="Filter()">Filter</button>
+          <!-- If on mobile display the panel change button -->
+          <div class="row" ng-show="Window()">
+            <div class="col-lg-12 text-center">
+              <button type="button" class="btn btn-success btn-md" ng-click="Filter()">Filter</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/angular.min.js"></script>
-  <script src="js/ReportsController.js"></script>
-</body>
-
+    <!-- Scripts used -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/ReportsController.js"></script>
+  </body>
 </html>
